@@ -53,6 +53,7 @@ userRouter.post("/login",async(req,res)=>{
       if(result){
 
         const token=jwt.sign({userID:isUser._id},process.env.tokenSecretSign,{expiresIn:"1h"})
+        console.log({msg:"login succesful",token,isUser})
 
         res.status(200).send({msg:"login succesful",token,isUser});
 
@@ -89,11 +90,11 @@ userRouter.get(
   }),
   async function (req, res) {
 
-    const userDataString = JSON.stringify(req.user);
+    // const userDataString = JSON.stringify(req.user);
     res.redirect(
       `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
     );
-    // console.log("----------------", userDataString);
+    console.log("----------------", userDataString);
     // res.send({userDatafromGoogleOauth:req.user})
     // try {
     //     // const fetch_user = await userModel.findOne({ email: req.user.email });
