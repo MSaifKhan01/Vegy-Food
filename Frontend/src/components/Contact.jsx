@@ -26,7 +26,7 @@ const Contact = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#35374B] to-[#121212] text-base w-screen h-screen flex justify-center items-center">
-      <div className="m-6">
+      <div className="m-6 w-2/3 ">
         <div className="container mx-auto p-10 bg-white rounded-lg shadow-lg flex justify-around ">
           <div className="text-center md:w-1/2">
             <h2 className="text-3xl font-bold text-gray-800 mb-8">Contact Us</h2>
