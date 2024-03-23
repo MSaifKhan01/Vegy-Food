@@ -15,7 +15,7 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       let user = {
-        name: profile._json.name,
+        username: profile._json.name,
         email: profile._json.email,
         // password: uuidv4(),
         avtar: profile._json.picture,

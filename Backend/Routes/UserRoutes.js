@@ -1,7 +1,79 @@
 const express = require("express");
 const { passport } = require("../Helper/GoogleOauth");
+const { UserModel } = require("../Model/userSchema");
+
+const bcrypt=require("bcrypt")
+const jwt=require("jsonwebtoken")
 
 const userRouter = express.Router();
+
+
+userRouter.post("/Signin", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    // Check if the user already exists with the provided email
+    const isUser = await UserModel.findOne({ email });
+    if (isUser) {
+      return res.status(200).send({ msg: "You are already signed up, directly login" });
+    }
+
+    // Hash the password
+    bcrypt.hash(password, 5, async (err, hash) => {
+      if (err) {
+        throw new Error("Error hashing password");
+      }
+      
+      // Create a new user with the hashed password
+      const newUser = new UserModel({ username, email, password: hash });
+      
+      // Save the new user
+      await newUser.save();
+      
+      // Send the success message after saving the user
+      res.status(200).send({ msg: "Sign up successful" });
+    });
+  } catch (error) {
+    res.status(401).send({ msg: error.message });
+  }
+});
+
+
+userRouter.post("/login",async(req,res)=>{
+  const { email, password } = req.body;
+
+
+  try {
+    const isUser = await UserModel.findOne({ email });
+    if (!isUser) {
+      return res.status(200).send({ msg: "You are not  signed up, You need to SignUp" });
+    }
+
+    bcrypt.compare(password,isUser.password,((err,result)=>{
+      if(result){
+
+        const token=jwt.sign({userID:isUser._id},process.env.tokenSecretSign,{expiresIn:"1h"})
+
+        res.status(200).send({msg:"login succesful",token,isUser});
+
+
+
+
+      }else{
+
+        return resstatus(401).send({msg:"invalid credintials"})
+      }
+
+    }))
+  } catch (error) {
+    res.status(401).send({ msg: error.message });
+  }
+
+
+
+})
+
+
 
 //------------------- Google Auth Here -----------------------------------------
 userRouter.get(

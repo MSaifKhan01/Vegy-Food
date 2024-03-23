@@ -6,6 +6,7 @@ const {userRouter} =require("./Routes/UserRoutes")
 
 const cors=require("cors");
 const { RestraurentRoute } = require("./Routes/RestraurentRoute");
+const { DB } = require("./DB/db");
 const app = express();
 
 // Middleware setup
@@ -18,6 +19,13 @@ app.use("/",RestraurentRoute)
 
 // Start server
 const port = 4000;
-app.listen(port, () => {
+app.listen(port, async() => {
+
+    try {
+        await DB
+        console.log("Coonnected DB");
+    } catch (error) {
+        console.log(error);
+    }
     console.log(`Express Server is running on port ${port}`);
 });
