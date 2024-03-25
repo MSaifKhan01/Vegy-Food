@@ -42,17 +42,20 @@ export const NavComponent = () => {
   const [menuActive, setMenuActive] = useState(false);
   const cartItem = useSelector((store) => store.cart.items);
   const Users = useSelector((store) => store.User.user);
-  // console.log("rom reudx----:",Users)
+  console.log("rom reudx----:",Users)
 
   // console.log("errtty",cartItem)
   const { user } = useContext(UserContext);
 
   // const name = user ? user.name || user.email : null;
+  // if(Users.length!==0){
+    // const name = Users[Users.length-1].isUser ? Users[Users.length-1].isUser
+    // .  username || Users[Users.length-1].isUser
+    // .email : null;
+    // console.log(name)
+  // }
 
-  const name = Users ? Users[Users.length-1].isUser
-.  username || Users[Users.length-1].isUser
-.email : null;
-// console.log(name)
+
 
   const closeMenu = () => {
     const menu = document.querySelector(".menu-content-container");
@@ -75,9 +78,15 @@ export const NavComponent = () => {
     <div className="flex items-center justify-between ">
       {isLoggedin ? (
         <div className="flex justify-center items-center">
-          <span className="py-2.5 px-1 mt-2.5 mr-1 font-bold text-green">
-            {user ? `${name}` : "Please Login"} !
-          </span>
+    <span className="py-2.5 px-1 mt-2.5 mr-1 font-bold text-green">
+  {Users.length !== 0 ? (
+    Users[Users.length - 1].isUser.username || Users[Users.length - 1].isUser.email 
+  ) : (
+    "Please Login"
+  )}
+</span>
+
+
         </div>
       ) : null}
 
