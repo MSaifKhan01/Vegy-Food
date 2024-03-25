@@ -90,7 +90,7 @@ userRouter.get(
   }),
   async function (req, res) {
 
-    // const userDataString = JSON.stringify(req.user);
+    const userDataString = JSON.stringify(req.user);
     res.redirect(
       `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
     );

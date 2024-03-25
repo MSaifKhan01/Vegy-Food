@@ -56,7 +56,7 @@ const UserDetailSlice = createSlice({
       builder
           .addCase(SignIn.pending, (state) => {
               state.loading = true;
-              state.error = null; // Reset error state
+              state.error = null; 
           })
           .addCase(SignIn.fulfilled, (state, action) => {
               state.loading = false;
@@ -64,8 +64,21 @@ const UserDetailSlice = createSlice({
           })
           .addCase(SignIn.rejected, (state, action) => {
               state.loading = false;
-              state.error = action.payload.message; // Set the error message
-          });
+              state.error = action.payload.message; 
+          })
+          builder.addCase(SignUp.pending,(state)=>{
+            state.loading=true;
+            state.error=null
+          })
+          builder.addCase(SignUp.fulfilled,(state)=>{
+            state.loading=false
+          })
+          builder.addCase(SignUp.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+          })
+
+
   }
 
   
