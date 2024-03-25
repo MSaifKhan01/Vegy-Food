@@ -1,4 +1,4 @@
-// File: RestaurentMenu.js
+
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,9 @@ import { addItem, clearCart } from "../utills/cartSlice";
 import { getFilterData } from "../utills/helper";
 import NoDataMessage from "./Nodata.jsx";
 import { Star, } from 'lucide-react';
+
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -29,6 +32,8 @@ const RestaurentMenu = () => {
   console.log("hvhvh", RestauroInfoAndMenu);
   const allItemCardsItem = RestauroInfoAndMenu.allItemCardsItem;
 
+  let isOnline = useOnline();
+
   useEffect(() => {
     setFilteredItems(allItemCardsItem);
   }, [allItemCardsItem]);
@@ -41,6 +46,10 @@ const RestaurentMenu = () => {
     dispatch(clearCart());
   };
   console.log("simple from", sortOption);
+
+  if (!isOnline) {
+    return <UserOffline />;
+  }
 
   const buttonStyle = {
     backgroundColor:

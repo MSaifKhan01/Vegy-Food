@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../utills/UserContext";
 import { useSelector } from "react-redux";
 
+
 const navLinks = [
   {
     title: "Home",
@@ -40,10 +41,18 @@ export const NavComponent = () => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const cartItem = useSelector((store) => store.cart.items);
-  console.log("errtty",cartItem)
+  const Users = useSelector((store) => store.User.user);
+  // console.log("rom reudx----:",Users)
+
+  // console.log("errtty",cartItem)
   const { user } = useContext(UserContext);
 
-  const name = user ? user.name || user.email : null;
+  // const name = user ? user.name || user.email : null;
+
+  const name = Users ? Users[Users.length-1].isUser
+.  username || Users[Users.length-1].isUser
+.email : null;
+// console.log(name)
 
   const closeMenu = () => {
     const menu = document.querySelector(".menu-content-container");

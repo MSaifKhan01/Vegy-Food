@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 
 import ItemCard from "./ItemCard.jsx";
-// import Shimmer from "./Shimmer.jsx";
+
 import { Link } from "react-router-dom";
 
 import { getFilterData } from "../utills/helper.js";
@@ -10,7 +10,7 @@ import UserOffline from "./UserOffline.jsx";
 import UserContext from "../utills/UserContext.js";
 import Shimmer from "./Shimmer.jsx";
 import NoDataMessage from "./Nodata.jsx";
-// import Banner from "./Banner.jsx";
+
 
 // Banner Images 
 import Bannerimg01 from "../Image/Bannerimg01.jpg"
