@@ -92,7 +92,8 @@ userRouter.get(
 
     const userDataString = JSON.stringify(req.user);
     res.redirect(
-      `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
+      // `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
+      `https://vegy-food.vercel.app/?userData=${encodeURIComponent(userDataString)}`
     );
     console.log("----------------", userDataString);
     // res.send({userDatafromGoogleOauth:req.user})
@@ -137,7 +138,7 @@ function token_Generator(res, name, id, image) {
   // res.cookie("token", token);
   // res.redirect(`http://127.0.0.1:5500/PROJECT_Front/index.html?token=${token}&username=${name}&image=${image}`)
 
-  res.redirect(`http://localhost:1234/`);
+  res.redirect(`https://vegy-food.vercel.app/`);
   // res.status(202).json({ refreshToken });
 }
 
