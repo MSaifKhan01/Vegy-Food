@@ -42,9 +42,10 @@ export const NavComponent = () => {
   const [menuActive, setMenuActive] = useState(false);
   const cartItem = useSelector((store) => store.cart.items);
   const Users = useSelector((store) => store.User.user);
+  // const CartItems = useSelector((store) => store.cart.item);
   console.log("rom reudx----:",Users)
 
-  // console.log("errtty",cartItem)
+  console.log("errtty",cartItem)
   const { user } = useContext(UserContext);
 
   // const name = user ? user.name || user.email : null;

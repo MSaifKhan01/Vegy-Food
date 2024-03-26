@@ -6,7 +6,7 @@ import { SWIGGY_IMAGE_CDN_id } from "../Config";
 import { MenuShimmer } from "./Shimmer";
 import useRestaurantMenu from "../Hooks/useRestaurantMenu";
 import { useDispatch } from "react-redux";
-import { addItem, clearCart } from "../utills/cartSlice";
+import { AddToCartItem } from "../utills/cartSlice";
 import { getFilterData } from "../utills/helper";
 import NoDataMessage from "./Nodata.jsx";
 import { Star, } from 'lucide-react';
@@ -39,11 +39,14 @@ const RestaurentMenu = () => {
   }, [allItemCardsItem]);
 
   const handleAddItem = (item) => {
-    dispatch(addItem(item));
+    // dispatch(addItem(item));
+
+    dispatch(AddToCartItem(item))
+    console.log("from cart for checking Id:",item)
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
+    // dispatch(clearCart());
   };
   console.log("simple from", sortOption);
 

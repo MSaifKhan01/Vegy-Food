@@ -9,8 +9,10 @@ const useRestaurantMenu = (id) => {
 
   const getRestaurentData = async () => {
     try {
-    
-        const response = await fetch(`https://vegy-food.onrender.com/restaurants?restaurantId=${id}`);
+
+
+        // const response = await fetch(`https://vegy-food.onrender.com/restaurants?restaurantId=${id}`);
+        const response = await fetch(`http://localhost:4000/restaurants?restaurantId=${id}`);
 
  
       const data = await response.json();

@@ -17,6 +17,8 @@ function Login() {
         try {
             const action = await dispatch(SignIn(loginUserData));
             console.log("Login Successful:", action.payload);
+            sessionStorage.setItem("token",action.payload.
+            token)
             alert(action.payload.msg);
         } catch (error) {
             setError(error.message);
@@ -24,7 +26,8 @@ function Login() {
     };
 
     const handleGoogleAuth = () => {
-        window.location.href = "https://vegy-food.onrender.com/auth/google";
+        // window.location.href = "https://vegy-food.onrender.com/auth/google";
+        window.location.href = "http://localhost:4000/auth/google";
     };
 
     useEffect(() => {

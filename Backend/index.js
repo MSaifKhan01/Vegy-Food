@@ -7,6 +7,8 @@ const {userRouter} =require("./Routes/UserRoutes")
 const cors=require("cors");
 const { RestraurentRoute } = require("./Routes/RestraurentRoute");
 const { DB } = require("./DB/db");
+const  CartRouter  = require("./Routes/CartRoutes");
+const { Auth } = require("./Middleware/auth");
 const app = express();
 
 // Middleware setup
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use(cors())
 app.use("/",userRouter)
 app.use("/Mail", MailRouter);
+app.use("/Cart", Auth, CartRouter);
 
 app.use("/",RestraurentRoute)
 

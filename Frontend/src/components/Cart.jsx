@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./CartItem";
-import { clearCart } from "../utills/cartSlice";
+// import { clearCart } from "../utills/cartSlice";
 import CheckoutCart from "./CheckOutCart";
+import { GetCartItems } from "../utills/cartSlice.js";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);
@@ -13,6 +14,11 @@ const Cart = () => {
   const handleClearCart=()=>{
     dispatch(clearCart())
   }
+
+  useEffect(()=>{
+    dispatch(GetCartItems())
+
+  },[])
   
   return (
     <div className="p-4 m-4">

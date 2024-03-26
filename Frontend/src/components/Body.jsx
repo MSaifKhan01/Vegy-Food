@@ -41,7 +41,8 @@ const Body = () => {
     //   "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.65420&lng=77.23730&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     // );
 
-    const Data2 = await fetch("https://vegy-food.onrender.com/restaurants");
+    // const Data2 = await fetch("https://vegy-food.onrender.com/restaurants");
+    const Data2 = await fetch("http://localhost:4000/restaurants");
 
     let ReadyData = await Data2.json();
     // console.log(ReadyData)

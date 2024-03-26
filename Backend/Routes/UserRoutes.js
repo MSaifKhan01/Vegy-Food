@@ -92,8 +92,8 @@ userRouter.get(
 
     const userDataString = JSON.stringify(req.user);
     res.redirect(
-      // `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
-      `https://vegy-food.vercel.app/?userData=${encodeURIComponent(userDataString)}`
+      `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
+      // `https://vegy-food.vercel.app/?userData=${encodeURIComponent(userDataString)}`
     );
     console.log("----------------", userDataString);
     // res.send({userDatafromGoogleOauth:req.user})
