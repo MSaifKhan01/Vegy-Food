@@ -62,7 +62,7 @@ userRouter.post("/login",async(req,res)=>{
 
       }else{
 
-        return resstatus(401).send({msg:"invalid credintials"})
+        return res.status(401).send({msg:"invalid credintials"})
       }
 
     }))

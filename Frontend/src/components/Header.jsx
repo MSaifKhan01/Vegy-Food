@@ -111,7 +111,8 @@ export const NavComponent = () => {
           <li className="p-2.5">
           <Link to="/cart">
               <button className="nav--btn">
-                Cart <span className="text-orange font-bold pl-1">{cartItem.length}</span>{" "}
+                Cart <span className="text-orange font-bold pl-1">{cartItem?.length ?? 0}</span>{" "}
+
               </button>
             </Link>
           </li>
