@@ -1,24 +1,33 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { DecreaseItemsQty, DeleteItem, GetCartItems, IncreaseItemsQty } from "../utills/cartSlice";
 
-const CartItem = ({ name, description, price, imageId }) => {
-  // State to track the quantity of the item
-  const [quantity, setQuantity] = useState(1);
+const CartItem = ({ product, Quantity }) => {
+  // console.log("from cart item ", product, Quantity);
+  const { name, description, price, imageId, id } = product;
 
-  // Function to handle incrementing the quantity
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
+  const dispatch = useDispatch();
+
+  const handleIncrement = (id) => {
+    // console.log("inc", id);
+    dispatch(IncreaseItemsQty(id));
   };
 
-  // Function to handle decrementing the quantity
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+ 
+  const handleDecrement = (id) => {
+    if (Quantity > 1) {
+      dispatch(DecreaseItemsQty(id));
+    
     }
   };
 
-  // Function to calculate the total price for the item
+  const handleDeleteItem=(id)=>{
+    dispatch(DeleteItem(id))
+  }
+
+
   const calculateTotalPrice = () => {
-    return (price / 100) * quantity;
+    return (price / 100) * Quantity;
   };
 
   return (
@@ -27,29 +36,31 @@ const CartItem = ({ name, description, price, imageId }) => {
         <h3 className="font-bold text-xl text-green-400">{name}</h3>
         <p className="text-gray-600">{description}</p>
         <div className="flex justify-between">
-        <div className="flex items-center mt-2">
-          {/* Decrement button */}
-          <button
-            onClick={handleDecrement}
-            className="bg-red-300 text-gray-600 px-3 py-1 rounded"
-          >
-            -
-          </button>
-          {/* Quantity display */}
-          <p className="text-gray-800 mx-2">{quantity}</p>
-          {/* Increment button */}
-          <button
-            onClick={handleIncrement}
-            className="bg-red-300 text-gray-600 px-3 py-1 rounded"
-          >
-            +
+          <div className="flex items-center mt-2">
+            {/* Decrement button */}
+            <button
+              onClick={() => handleDecrement(id)}
+              className="bg-red-300 text-gray-600 px-3 py-1 rounded"
+            >
+              -
+            </button>
+
+            {/* Quantity display */}
+            <p className="text-gray-800 mx-2">{Quantity}</p>
+            {/* Increment button */}
+            <button
+              onClick={() => handleIncrement(id)}
+              className="bg-red-300 text-gray-600 px-3 py-1 rounded"
+            >
+              +
+            </button>
+          </div>
+
+          <button onClick={(()=>handleDeleteItem(id))} className="bg-red-300 text-gray-600 px-2  rounded">
+            Remove item
           </button>
         </div>
 
-        <button className="bg-red-300 text-gray-600 px-2  rounded">Remove item</button>
-        </div>
-      
-       
         {/* Price per item and total sections */}
         <div className="flex justify-between mt-4">
           <h4 className="font-semibold text-blue-600">

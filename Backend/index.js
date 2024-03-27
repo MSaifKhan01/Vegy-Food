@@ -11,9 +11,17 @@ const  CartRouter  = require("./Routes/CartRoutes");
 const { Auth } = require("./Middleware/auth");
 const app = express();
 
-// Middleware setup
-app.use(express.json());
-app.use(cors())
+// Enable CORS for all origins and allow PATCH method
+app.use(cors({
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  }));
+  
+  // Middleware setup
+  app.use(express.json());
+  
+  // Your other route setups...
+  
+
 app.use("/",userRouter)
 app.use("/Mail", MailRouter);
 app.use("/Cart", Auth, CartRouter);

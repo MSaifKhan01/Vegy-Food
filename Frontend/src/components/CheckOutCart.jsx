@@ -8,7 +8,7 @@ const CheckoutCart = () => {
   const gstRate = 0.18; // GST rate of 18%
 
   const subTotal = cartItems.reduce(
-    (total, item) => total + item.Product.price / 100,
+    (total, item) => total + (item.Product.price / 100)*item.Quantity,
     0
   );
   const gstAndCharges = subTotal * gstRate;
