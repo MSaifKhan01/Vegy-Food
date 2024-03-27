@@ -7,6 +7,30 @@ const jwt=require("jsonwebtoken")
 
 const userRouter = express.Router();
 
+// // Middleware to get IP address
+// function getClientIp(req) {
+//   const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//   return ipAddress;
+// }
+
+// // Middleware to get location based on IP address
+// async function getLocation(ipAddress) {
+//   try {
+//     const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+//     const responseData = await response.json();
+
+//     if (responseData.status === 'success') {
+//       const { city, regionName, country } = responseData;
+//       return `${city}, ${regionName}, ${country}`;
+//     } else {
+//       throw new Error("Failed to fetch location");
+//     }
+//   } catch (error) {
+//     console.error("Error fetching location:", error);
+//     return null;
+//   }
+// }
+
 
 userRouter.post("/SignUp", async (req, res) => {
   const { username, email, password } = req.body;
@@ -39,8 +63,20 @@ userRouter.post("/SignUp", async (req, res) => {
 });
 
 
+
+
+
 userRouter.post("/login",async(req,res)=>{
   const { email, password } = req.body;
+
+  // const ipAddress = getClientIp(req); // Get client IP address
+  // console.log("----------",ipAddress)
+
+  // // Get location based on IP address
+  // const location = await getLocation(ipAddress);
+  // console.log("jkjlkj---------: --",location)
+
+
 
 
   try {
