@@ -2,7 +2,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 
 export const AddToCartItem= createAsyncThunk("AddToCart",async(data,{rejectWithValue})=>{
-    console.log("from fn thunk ",data)
+    // console.log("from fn thunk ",data)
     try {
         let token=sessionStorage.getItem("token")
         console.log(token)
@@ -17,7 +17,7 @@ export const AddToCartItem= createAsyncThunk("AddToCart",async(data,{rejectWithV
         })
 
         const result= await response.json()
-        console.log("from Cart thunk",result)
+        console.log("from add Cart thunk",result)
 
         return result;
 
@@ -46,7 +46,7 @@ export const GetCartItems = createAsyncThunk("GetCart", async (_, { rejectWithVa
 });
 
 export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWithValue})=>{
-    console.log("from fn thunk ",id)
+    // console.log("from fn thunk ",id)
     try {
         let token=sessionStorage.getItem("token")
         console.log(token)
@@ -61,7 +61,7 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
         })
 
         const result= await response.json()
-        console.log("from Cart thunk increament :-",result)
+        console.log("from Cart thunk increament Qty :-",result)
 
         return result;
 
@@ -71,10 +71,10 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
 })
 
 export const DecreaseItemsQty = createAsyncThunk("DecItemQty",async(id,{rejectWithValue})=>{
-    console.log("from fn thunk ",id)
+    // console.log("from fn thunk ",id)
     try {
         let token=sessionStorage.getItem("token")
-        console.log(token)
+        // console.log(token)
         const response= await fetch(`http://localhost:4000/Cart/dec-qty/${id}`,{
             method:"PATCH",
             headers: {
@@ -86,7 +86,7 @@ export const DecreaseItemsQty = createAsyncThunk("DecItemQty",async(id,{rejectWi
         })
 
         const result= await response.json()
-        console.log("from Cart thunk decrement :-",result)
+        console.log("from Cart thunk decrement Qty:-",result)
 
         return result;
 
@@ -97,11 +97,11 @@ export const DecreaseItemsQty = createAsyncThunk("DecItemQty",async(id,{rejectWi
 
 
 export const DeleteItem = createAsyncThunk("DeleteItem",async(id,{rejectWithValue})=>{
-    console.log("from fn thunk dlete",id)
+    // console.log("from fn thunk dlete",id)
     try {
         let token=sessionStorage.getItem("token")
-        console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart//remove-item/${id}`,{
+        // console.log(token)
+        const response= await fetch(`http://localhost:4000/Cart/remove-item/${id}`,{
             method:"DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -112,7 +112,33 @@ export const DeleteItem = createAsyncThunk("DeleteItem",async(id,{rejectWithValu
         })
 
         const result= await response.json()
-        console.log("from Cart thunk decrement :-",result)
+        console.log("from Cart thunk delete-Item :-",result)
+
+        return result;
+
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
+
+export const ClearCart = createAsyncThunk("ClearCart",async(id,{rejectWithValue})=>{
+    // console.log("from fn thunk dlete",id)
+    try {
+        let token=sessionStorage.getItem("token")
+        console.log(token)
+        const response= await fetch(`http://localhost:4000/Cart/clear-cart`,{
+            method:"DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${ token}`
+            },
+            
+         
+        })
+
+        const result= await response.json()
+        console.log("from Cart thunk ClearCart :-",result)
 
         return result;
 
@@ -230,6 +256,28 @@ const cartSlice= createSlice({
             state.loading=false
             state.error=action.error.message
         })
+
+
+
+
+        
+        /// ClearCart
+
+        builder.addCase(ClearCart.pending,(state)=>{
+            state.loading=true
+            state.error=null
+        })
+        builder.addCase(ClearCart.fulfilled,(state,action)=>{
+            state.loading=false
+            state.items=[]
+          
+        })
+
+        builder.addCase(ClearCart.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+        })
+
 
     }
     

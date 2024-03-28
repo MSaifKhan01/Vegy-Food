@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import CheckoutCart from "./CheckOutCart";
-import { GetCartItems } from "../utills/cartSlice.js";
+import { ClearCart, GetCartItems } from "../utills/cartSlice.js";
 import EmptyCart from "./EmptyCart.jsx";
 
 const Cart = () => {
@@ -34,12 +34,16 @@ const Cart = () => {
 
   const handleClearCart = () => {
     // Implement logic to clear cart
-    // dispatch(clearCart());
+    dispatch(ClearCart());
   };
 
   return (
     <div className="p-4 m-4">
-      <div className="flex justify-center">
+     
+      {cartItems && cartItems.length > 0 ? (
+     
+     <div>
+       <div className="flex justify-center">
         <button
           className="p-2 m-2 bg-green-400 rounded-md"
           onClick={() => {
@@ -49,9 +53,7 @@ const Cart = () => {
           Clear Cart
         </button>
       </div>
-      {cartItems && cartItems.length > 0 ? (
-     
-      <div className="flex m-2 gap-4">
+       <div className="flex m-2 gap-4">
          <div className="w-3/5">
       {cartItems.map((item, index) => (
         <CartItem key={index} product={item.Product}  Quantity={item.Quantity}/>
@@ -60,6 +62,7 @@ const Cart = () => {
     </div>
     <CheckoutCart  />
     </div>
+     </div>
       ) : (
       
         <EmptyCart />

@@ -19,6 +19,7 @@ import { RestroData } from "./Config.js"
 import {Provider} from "react-redux"
 import store from "./utills/store.js"
 import Cart from "./components/Cart.jsx"
+import Order from "./components/Order.jsx"
 
 
 // lazy method using for code (component ) chunking 
@@ -88,6 +89,10 @@ const AppRouter= createBrowserRouter([
                 path:"/about/contact",
                 element:<Contact />
             },
+            {
+                path:"/order",
+                element:<Order />
+            }
        
         ]
     }

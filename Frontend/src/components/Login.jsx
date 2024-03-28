@@ -19,6 +19,8 @@ function Login() {
             console.log("Login Successful:", action.payload);
             sessionStorage.setItem("token",action.payload.
             token)
+            sessionStorage.setItem("User",JSON.stringify(action.payload.
+            isUser))
             alert(action.payload.msg);
         } catch (error) {
             setError(error.message);

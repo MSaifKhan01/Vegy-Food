@@ -1,8 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 const CheckoutCart = () => {
   const cartItems = useSelector((store) => store.cart.items) ?? [];
+
+
+  // console.log("from checkhout---------------------------------",cartItems)
   const deliveryFee = 20; 
   const platformFee = 5.004; 
   const gstRate = 0.18; // GST rate of 18%
@@ -13,6 +18,37 @@ const CheckoutCart = () => {
   );
   const gstAndCharges = subTotal * gstRate;
   const totalBill = subTotal + deliveryFee + platformFee + gstAndCharges;
+
+  const MakePayment=async()=>{
+    const stripe= await loadStripe("pk_test_51OzL7GSFsBLrRIll1M7ewanBUR1PQDjVSjPwPe1yqzny0zaMbY2DvSSJyY6pg43EJkQghqX7iV55uGFOzGL0HTxd00jTi9AaYH")
+
+    let token=sessionStorage.getItem("token")
+    
+    const userDataJSON = sessionStorage.getItem("User");
+
+   const userData = JSON.parse(userDataJSON);
+    // console.log(token)
+
+    const data={
+      cartItems,
+      userData
+    }
+    const response= await fetch(`http://localhost:4000/order/Check-out`,{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${ token}`
+        },
+        
+        body:JSON.stringify(data)
+    })
+
+    const session= await response.json()
+    console.log("sessss",session)
+    const result= stripe.redirectToCheckout({
+      sessionId:session.id
+    })
+  }
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-2/5">
@@ -40,7 +76,9 @@ const CheckoutCart = () => {
           <p className="text-lg font-semibold text-red-600">₹ {totalBill.toFixed(2)}</p>
         </div>
       </div>
-      <button className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+      <button onClick={(()=>{
+        MakePayment()
+      })} className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
         Checkout
       </button>
     </div>

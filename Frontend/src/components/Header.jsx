@@ -1,8 +1,9 @@
 import { Logo_Url } from "../Config";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../utills/UserContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCartItems } from "../utills/cartSlice";
 
 
 const navLinks = [
@@ -154,6 +155,21 @@ export const NavComponent = () => {
 };
 
 export const Header = () => {
+
+  const dispatch=useDispatch()
+
+    // Function to fetch cart items
+    const fetchCartItems = () => {
+      dispatch(GetCartItems());
+    };
+
+    
+  // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
+  useEffect(() => {
+    fetchCartItems(); // Initial fetch
+    const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, []);
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 border-b bg-red-100 border-gray-200">
       <Title />

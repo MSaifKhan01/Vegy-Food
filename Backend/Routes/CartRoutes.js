@@ -38,13 +38,13 @@ CartRouter.get("/Cart-data", async (req, res) => {
     const cartItems = await CartModel.find({ UserID: userID });
 
     if (cartItems.length === 0) {
-      return res.status(404).json({ message: "No cart items found for the user" });
+      return res.status(404).send({ message: "No cart items found for the user" });
     }
 
-    return res.status(200).json({ CartItems: cartItems });
+    return res.status(200).send({ CartItems: cartItems });
   } catch (error) {
     console.error("Error fetching cart data:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).send({ message: "Internal Server Error" });
   }
 });
 
@@ -58,16 +58,16 @@ CartRouter.patch("/inc-qty/:productID", async (req, res) => {
     const item = await CartModel.findOne({ UserID: userID, "Product.id": productID });
 
     if (!item) {
-      return res.status(404).json({ msg: "Product Not Found in Cart" });
+      return res.status(404).send({ msg: "Product Not Found in Cart" });
     }
 
     if (item.Quantity > 0) {
       item.Quantity++;
       await item.save();
-      return res.status(200).json({ msg: "Product Quantity Increased" });
+      return res.status(200).send({ msg: "Product Quantity Increased" });
     }
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       error: "Internal Server Error",
       msg: error.message,
@@ -83,16 +83,16 @@ CartRouter.patch("/dec-qty/:productID", async (req, res) => {
     const item = await CartModel.findOne({ UserID: userID, "Product.id": productID });
 
     if (!item) {
-      return res.status(404).json({ msg: "Product Not Found in Cart" });
+      return res.status(404).send({ msg: "Product Not Found in Cart" });
     }
 
     if (item.Quantity > 1) {
       item.Quantity--;
       await item.save();
-      return res.status(200).json({ msg: "Product Quantity Decreased" });
+      return res.status(200).send({ msg: "Product Quantity Decreased" });
     }
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       error: "Internal Server Error",
       msg: error.message,
@@ -108,19 +108,37 @@ CartRouter.delete("/remove-item/:productID", async (req, res) => {
     const item = await CartModel.findOne({ UserID: userID, "Product.id": productID });
 
     if (!item) {
-      return res.status(404).json({ msg: "Product Not Found in Cart" });
+      return res.status(404).send({ msg: "Product Not Found in Cart" });
     }
 
     await CartModel.findOneAndDelete({ UserID: userID, "Product.id": productID });
 
-    return res.status(200).json({ msg: "Product Removed Successfully" });
+    return res.status(200).send({ msg: "Product Removed Successfully" });
   } catch (error) {
-    res.status(500).json({
+    res.status(500).send({
       success: false,
       error: "Internal Server Error",
       msg: error.message,
     });
   }
 });
+
+// Clear Cart Route
+CartRouter.delete("/clear-cart",async(req,res)=>{
+  try {
+    
+    const userID= req.userID
+
+    await CartModel.deleteMany({UserID:userID})
+    return res.status(200).send({ msg:"Cart Cleared Successfully"});
+
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error: "Internal Server Error",
+      msg: error.message,
+    });
+  }
+})
 
 module.exports = CartRouter;

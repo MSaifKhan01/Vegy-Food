@@ -9,6 +9,7 @@ const { RestraurentRoute } = require("./Routes/RestraurentRoute");
 const { DB } = require("./DB/db");
 const  CartRouter  = require("./Routes/CartRoutes");
 const { Auth } = require("./Middleware/auth");
+const OrderRouter = require("./Routes/OrderRoute");
 const app = express();
 
 // Enable CORS for all origins and allow PATCH method
@@ -25,6 +26,7 @@ app.use(cors({
 app.use("/",userRouter)
 app.use("/Mail", MailRouter);
 app.use("/Cart", Auth, CartRouter);
+app.use("/order", Auth, OrderRouter);
 
 app.use("/",RestraurentRoute)
 
