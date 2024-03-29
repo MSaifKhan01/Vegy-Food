@@ -7,29 +7,7 @@ const jwt=require("jsonwebtoken")
 
 const userRouter = express.Router();
 
-// // Middleware to get IP address
-// function getClientIp(req) {
-//   const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-//   return ipAddress;
-// }
 
-// // Middleware to get location based on IP address
-// async function getLocation(ipAddress) {
-//   try {
-//     const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
-//     const responseData = await response.json();
-
-//     if (responseData.status === 'success') {
-//       const { city, regionName, country } = responseData;
-//       return `${city}, ${regionName}, ${country}`;
-//     } else {
-//       throw new Error("Failed to fetch location");
-//     }
-//   } catch (error) {
-//     console.error("Error fetching location:", error);
-//     return null;
-//   }
-// }
 
 
 userRouter.post("/SignUp", async (req, res) => {
@@ -69,12 +47,7 @@ userRouter.post("/SignUp", async (req, res) => {
 userRouter.post("/login",async(req,res)=>{
   const { email, password } = req.body;
 
-  // const ipAddress = getClientIp(req); // Get client IP address
-  // console.log("----------",ipAddress)
-
-  // // Get location based on IP address
-  // const location = await getLocation(ipAddress);
-  // console.log("jkjlkj---------: --",location)
+  
 
 
 
@@ -118,44 +91,7 @@ userRouter.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-userRouter.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login",
-    session: false,
-  }),
-  async function (req, res) {
 
-    const userDataString = JSON.stringify(req.user);
-    res.redirect(
-      `http://localhost:1234/?userData=${encodeURIComponent(userDataString)}`
-      // `https://vegy-food.vercel.app/?userData=${encodeURIComponent(userDataString)}`
-    );
-    console.log("----------------", userDataString);
-    // res.send({userDatafromGoogleOauth:req.user})
-    // try {
-    //     // const fetch_user = await userModel.findOne({ email: req.user.email });
-
-    //     if (fetch_user) {
-    //         token_Generator(res, fetch_user.name, fetch_user._id , fetch_user.image);
-    //     } else {
-    //         bcrypt.hash("password", 2, async (err, hash) => {
-    //             const newUser = new userModel({
-    //                 name: req.user.name,
-    //                 email: req.user.email,
-    //                 password: hash,
-    //                 image : req.user.avtar
-    //             });
-    //             await newUser.save();
-
-    //             token_Generator(res, req.user.name, "login with google",req.user.avtar);
-    //         });
-    //     }
-    // } catch (error) {
-    //     res.status(500).send({ msg: "An error occurred while authenticating with Google" });
-    // }
-  }
-);
 
 //---------------- Functions Here -----------------------------------
 
@@ -177,5 +113,56 @@ function token_Generator(res, name, id, image) {
   res.redirect(`https://vegy-food.vercel.app/`);
   // res.status(202).json({ refreshToken });
 }
+
+
+userRouter.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+  }),
+  async function (req, res) {
+    try {
+      const userData = req.user; // User data returned from Google OAuth
+      const existingUser = await UserModel.findOne({ email: userData.email });
+
+      if (existingUser) {
+        // User already exists, update the password with the encrypted access token
+        const encryptedToken = bcrypt.hashSync(userData.accessToken, 10); // Encrypt the access token
+        await UserModel.findByIdAndUpdate(existingUser._id, { password: encryptedToken });
+
+        const token = jwt.sign({ userID: existingUser._id }, process.env.tokenSecretSign, { expiresIn: "1h" });
+        console.log("--------------------user Updated------------------")
+        res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ existingUser, token }))}`);
+      } else {
+        // Create a new user with encrypted access token as password
+        const encryptedToken = bcrypt.hashSync(userData.accessToken, 10); // Encrypt the access token
+
+        let userdata = {
+          username: userData.username,
+          email: userData.email,
+          password: encryptedToken,
+        };
+
+        const newUser = new UserModel(userdata);
+        await newUser.save();
+
+        // Fetch the newly created user from the database
+        const newUserFromDB = await UserModel.findOne({ email: userData.email });
+        const token = jwt.sign({ userID: newUserFromDB._id }, process.env.tokenSecretSign, { expiresIn: "1h" });
+
+        console.log("--------------------new user added------------------")
+
+        res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ user: newUserFromDB, token }))}`);
+      }
+    } catch (error) {
+      console.error("Error during Google OAuth callback:", error);
+      res.status(500).send({ msg: "An error occurred during Google OAuth callback" });
+    }
+  }
+);
+
+
+
 
 module.exports = { userRouter };

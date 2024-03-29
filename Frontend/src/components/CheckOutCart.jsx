@@ -30,6 +30,7 @@ const CheckoutCart = () => {
       const data = {
         cartItems,
         userData,
+        totalBill
       };
 
       const response = await fetch(`http://localhost:4000/order/Check-out`, {
@@ -50,6 +51,7 @@ const CheckoutCart = () => {
         const result = await stripe.redirectToCheckout({
           sessionId: session.id,
         });
+        // console.log(result,"----------")
 
         if (result.error) {
           console.error("Error redirecting to checkout:", result.error);

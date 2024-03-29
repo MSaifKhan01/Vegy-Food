@@ -7,30 +7,28 @@ const orderStatusSchema = new mongoose.Schema({
         default: 'Pending',
     },
     timestamp: { type: Date, default: Date.now },
-    description: { type: String },
+    
 });
 
-const paymentSchema = new mongoose.Schema({
-    cardholderName: { type: String, required: true },
-    cardNumber: { type: String, required: true },
-    email: { type: String, required: true },
-});
+// const paymentSchema = new mongoose.Schema({
+//     cardholderName: { type: String, required: true },
+//     cardNumber: { type: String, required: true },
+//     email: { type: String, required: true },
+// });
 
 const orderSchema = new mongoose.Schema({
     UserID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
-    }, 
-    CartItems: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cart",
-        required: true,
-    }],
-    Address: { type: String },
+    },
+     
+    CartItems: [],
+    // Address: { type: String },
     orderStatus: orderStatusSchema,
     total: { type: Number, required: true },
-    paymentDetails: paymentSchema,
+    // paymentDetails: paymentSchema,
+    payment: { type: Boolean, default: false }
 });
 
 const orderModel = mongoose.model("Order", orderSchema);

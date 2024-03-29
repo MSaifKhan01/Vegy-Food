@@ -13,14 +13,16 @@ const Cart = () => {
   // Function to fetch cart items
   const fetchCartItems = () => {
     dispatch(GetCartItems());
+    console.log("hbhbjb")
   };
 
-  // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
+  // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
   useEffect(() => {
     fetchCartItems(); // Initial fetch
     const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
     return () => clearInterval(intervalId); // Clean up on unmount
-  }, []);
+  }, [dispatch]);
+
 
   useEffect(() => {
     // Calculate total price when cart items change
