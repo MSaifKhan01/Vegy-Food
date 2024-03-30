@@ -26,7 +26,7 @@ const sendEmail = async (data) => {
   }
 };
 
-// for Contact 
+// for order
 const sendEmailOrderConfirm = async (data) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",

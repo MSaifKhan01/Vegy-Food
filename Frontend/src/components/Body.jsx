@@ -15,7 +15,7 @@ import NoDataMessage from "./Nodata.jsx";
 // Banner Images 
 import Bannerimg01 from "../Image/Bannerimg01.jpg"
 import Banner02Img from "../Image/Banner02Img.png"
-// import Banner03Img from "../Image/Banner03Img.jpg"
+
 import Banner04Img from "../Image/Banner04Img.png"
 import Banner05Img from "../Image/Banner05Img.png"
 import Banner06Img from "../Image/Banner06Img.png"
@@ -63,7 +63,7 @@ const Body = () => {
     Banner04Img,
     Banner02Img,
     Banner05Img,
-    // Banner03Img,
+
     Banner06Img,
     Bannerimg01
    
@@ -148,27 +148,7 @@ const Body = () => {
         </div>
       </div>
 
-      {/* <div className=" flex items-center justify-center mt-4 gap">
-        <input
-        className="border border-gray-400 rounded-l px-2 py-1 "
-          type="text"
-          placeholder="Search"
-          value={serachTxt}
-          onChange={(e) => {
-            setSerachTxt(e.target.value);
-          }}
-        />
-        <button
-        className="search-container flex items-center justify-center bg-blue-500 rounded-r h-8 p-3"
-          onClick={ async()  => {
-            let data= await getFilterData(Data,serachTxt);
-            setFilterData(data);
-          }}
-        >
-          Search
-        </button>
-
-      </div> */}
+     
       {filterData.length === 0 ? (
         <NoDataMessage searchText={serachTxt} />
       ) : (

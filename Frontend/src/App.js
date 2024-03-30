@@ -14,7 +14,7 @@ import RestaurentMenu from "./components/RestaurentMenu.jsx"
 import Contact from "./components/Contact.jsx"
 import Shimmer from "./components/Shimmer.jsx"
 import UserContext from "./utills/UserContext.js"
-import { RestroData } from "./Config.js"
+// import { RestroData } from "./Config.js"
 
 import {Provider} from "react-redux"
 import store from "./utills/store.js"
@@ -32,7 +32,7 @@ const AppLayout=()=>{
     const [user,setUser]=useState({
         name:"Mohd Saif khan",
         email:"saif0715@gmail.com",
-        RestroData
+        // RestroData
     })
     return(
         <Provider store={store}>

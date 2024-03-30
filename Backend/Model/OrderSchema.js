@@ -1,20 +1,6 @@
 const mongoose = require("mongoose");
+const moment = require('moment-timezone');
 
-const orderStatusSchema = new mongoose.Schema({
-    status: {
-        type: String,
-        enum: ['Pending', 'Shipped', 'Delivered'],
-        default: 'Pending',
-    },
-    timestamp: { type: Date, default: Date.now },
-    
-});
-
-// const paymentSchema = new mongoose.Schema({
-//     cardholderName: { type: String, required: true },
-//     cardNumber: { type: String, required: true },
-//     email: { type: String, required: true },
-// });
 
 const orderSchema = new mongoose.Schema({
     UserID: {
@@ -25,9 +11,17 @@ const orderSchema = new mongoose.Schema({
      
     CartItems: [],
     // Address: { type: String },
-    orderStatus: orderStatusSchema,
+    status: {
+        type: String,
+        enum: ['Pending', 'Shipped', 'Delivered','Canceled'],
+        default: 'Pending',
+    },
+    timestamp:  { 
+        type: String, 
+        default: () => moment().tz('Asia/Kolkata').format('DD/MM/YYYY hh:mm:ss A') 
+    },
     total: { type: Number, required: true },
-    // paymentDetails: paymentSchema,
+    
     payment: { type: Boolean, default: false }
 });
 

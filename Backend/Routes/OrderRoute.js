@@ -24,7 +24,7 @@ OrderRouter.post("/Check-out", async (req, res) => {
   );
 
   // Calculate GST amount
-  const gstAmount = subTotal * gstRate;
+  const gstAmount = (subTotal * gstRate)/100;
 
   // Calculate total including delivery fee, platform fee, and GST
   const totalAmount = subTotal + deliveryFee + platformFee + gstAmount;
@@ -76,7 +76,7 @@ OrderRouter.post("/Check-out", async (req, res) => {
       product_data: {
         name: "GST",
       },
-      unit_amount: gstAmount, // Convert to cents
+      unit_amount:Math.round(gstAmount * 100), // Convert to cents
     },
     quantity: 1,
   });
@@ -89,12 +89,13 @@ OrderRouter.post("/Check-out", async (req, res) => {
     success_url: "http://localhost:1234/",
     cancel_url: "https://example.com/cancel",
   });
-  // console.log("----------------",session,"---------------")
-
+  console.log("----------------",session,"---------------")
+if(session.id){
+  
   let orderDataObject = {
     UserID: userID,
     CartItems: data.cartItems,
-    total: totalAmount,
+    total: data.totalBill.toFixed(2),
     payment: true,
   };
 
@@ -102,8 +103,7 @@ OrderRouter.post("/Check-out", async (req, res) => {
   const newOrder = new orderModel(orderDataObject);
   await newOrder.save();
 
-//   // for sending mail order Confirmation
-//   orderConfirmationMail(data,totalAmount);
+
 
   // deleting cartItems after order confirm
   await CartModel.deleteMany({ UserID: userID });
@@ -111,9 +111,10 @@ OrderRouter.post("/Check-out", async (req, res) => {
   // for sending mail order Confirmation
   orderConfirmationMail(data);
 //   console.log("--------",data,totalAmount,"-------------------")
+}
 
 
-//   return res.send("succesfull")
+
 
 //   Return the session ID to the client
   res.json({ id: session.id });
@@ -132,7 +133,7 @@ function orderConfirmationMail(data) {
                     
                     <p>Dear <span style="font-weight: bold; color: #4CAF50; font-size: larger;">${data.userData.username}</span>,</p>
 
-                    <p>Your order has been successfully placed with FORK & JSA Restaurant. Below are the order details:</p>
+                    <p>Your order has been successfully placed with FORK & JSA Restaurant. <span style="font-weight: bold; color: #4CAF50; font-size: larger;">Below are the order details</span>:</p>
                     
                     <table style="border-collapse: collapse; width: 100%;">
                         <thead style="background-color: #f2f2f2;">
@@ -179,6 +180,50 @@ function orderConfirmationMail(data) {
     // Send the order confirmation email
     sendEmailOrderConfirm(emailData);
 }
+
+
+
+// // Route to handle Stripe webhook events
+// OrderRouter.post("/webhook", async (req, res) => {
+//   try {
+//     const event = req.body;
+
+//     // Handle payment success event
+//     if (event.type === "checkout.session.completed") {
+//       const session = event.data.object;
+
+//       // Retrieve order details from the session
+//       const orderID = session.metadata.order_id;
+//       const userID = session.metadata.user_id;
+
+//       // Update order status in the database
+//       await orderModel.findByIdAndUpdate(orderID, { payment: true });
+
+//       // Deleting cartItems after order confirm
+//       await CartModel.deleteMany({ UserID: userID });
+
+//       // Sending order confirmation email
+//       const order = await orderModel.findById(orderID);
+//       orderConfirmationMail(order);
+
+//       res.status(200).json({ message: "Payment successful" });
+//     }
+//   } catch (error) {
+//     console.error("Webhook Error:", error);
+//     res.status(500).json({ error: "Webhook processing error" });
+//   }
+// });
+
+
+OrderRouter.get("/get-order",async(req,res)=>{
+  try {
+    
+    let ordersData= await orderModel.find()
+    res.status(200).send(ordersData)
+  } catch (error) {
+    res.status(401).send({ msg: error.message });
+  }
+})
 
 
   

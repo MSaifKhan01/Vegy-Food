@@ -1,21 +1,4 @@
 
-// import OfflineImage  from "../Image/Offline.jpg"
-
-// const UserOffline=()=>{
-
-//     return (
-     
-//         <div className="userOffline">
-//             <h1 className="user-offline-heading">🔴 Offline!</h1>
-//             <img src={OfflineImage} alt="image" />
-
-//         </div>
-   
-//     )
-// }
-
-
-// export default UserOffline;
 
 
 

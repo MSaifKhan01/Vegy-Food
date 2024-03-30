@@ -1,32 +1,4 @@
-// import React from 'react';
 
-// const Shimmer = () => {
-//   return (
-//     <div className="flex flex-wrap justify-between gap-2">
-//       {[...Array(25)].map((_, index) => (
-//         <div key={index} className="w-1/6 bg-gray-200 h-32 rounded-lg mb-4 animate-pulse relative overflow-hidden">
-//           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent to-gray-300 opacity-50 rounded-lg"></div>
-//           <div className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-gray-300 to-transparent opacity-50 rounded-lg"></div>
-//           <h2 className="text-gray-300 font-semibold w-3/4 h-4 mb-2 animate-pulse bg-gray-400 mt-4 rounded"></h2>
-//           <h3 className="text-gray-600 mb-2 w-1/2 h-4 animate-pulse bg-gray-300 rounded"></h3>
-//           <p className="text-gray-600 mb-2 w-3/4 h-4 animate-pulse bg-gray-300 rounded"></p>
-//           <h4 className="text-gray-600 font-semibold mt-4 w-1/3 h-4 animate-pulse bg-gray-300 rounded"></h4>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-
-
-// export default Shimmer;
-
-
-
-
-
-// import { SHIMMER_RES_CARDS_COUNT } from '../config'; // this is an no 
-// import { SHIMMER_MENU_ITEMS_COUNT } from '../config'; // this is an no
 import React from 'react';
 
 const CardShimmer = () => {

@@ -1,8 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { loadStripe } from "@stripe/stripe-js";
+import { useDispatch, useSelector } from "react-redux";
+import { MakeOrder } from "../utills/OrderSlice";
+// import { loadStripe } from "@stripe/stripe-js";
 
 const CheckoutCart = () => {
+  const dispatch= useDispatch()
   const cartItems = useSelector((store) => store.cart.items) ?? [];
 
   // console.log("from checkhout---------------------------------",cartItems)
@@ -18,13 +20,8 @@ const CheckoutCart = () => {
   const totalBill = subTotal + deliveryFee + platformFee + gstAndCharges;
 
   const MakePayment = async () => {
-    const stripe = await loadStripe(
-      "pk_test_51OzL7GSFsBLrRIll1M7ewanBUR1PQDjVSjPwPe1yqzny0zaMbY2DvSSJyY6pg43EJkQghqX7iV55uGFOzGL0HTxd00jTi9AaYH"
-    );
-    // const stripe= await loadStripe("pk_test_51OzfzPSESQmVp4CxeqTy9lQh3phl6er5zSdb2q6xLq4Euk8j8uj3q78wbRSo3tVbdFLvv8AfzUSOjILRlmOfOk3j00FYdDU6QL")
-
-    try {
-      const token = sessionStorage.getItem("token");
+  
+      // const token = sessionStorage.getItem("token");
       const userDataJSON = sessionStorage.getItem("User");
       const userData = JSON.parse(userDataJSON);
       const data = {
@@ -33,35 +30,8 @@ const CheckoutCart = () => {
         totalBill
       };
 
-      const response = await fetch(`http://localhost:4000/order/Check-out`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      });
+      dispatch(MakeOrder(data))
 
-      const session = await response.json();
-
-      if (session.error) {
-        console.error("Error creating Stripe Checkout Session:", session.error);
-        // Handle the error, e.g., display an error message to the user
-      } else {
-        const result = await stripe.redirectToCheckout({
-          sessionId: session.id,
-        });
-        // console.log(result,"----------")
-
-        if (result.error) {
-          console.error("Error redirecting to checkout:", result.error);
-          // Handle the error, e.g., display an error message to the user
-        }
-      }
-    } catch (error) {
-      console.error("Error processing payment:", error);
-      // Handle other errors, e.g., network errors
-    }
   };
 
   return (

@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SWIGGY_IMAGE_CDN_id } from "../Config";
@@ -9,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { AddToCartItem } from "../utills/cartSlice";
 import { getFilterData } from "../utills/helper";
 import NoDataMessage from "./Nodata.jsx";
-import { Star, } from 'lucide-react';
+import { Star } from "lucide-react";
 
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
@@ -41,8 +39,8 @@ const RestaurentMenu = () => {
   const handleAddItem = (item) => {
     // dispatch(addItem(item));
 
-    dispatch(AddToCartItem(item))
-    console.log("from cart for checking Id:",item)
+    dispatch(AddToCartItem(item));
+    console.log("from cart for checking Id:", item);
   };
 
   const handleClearCart = () => {
@@ -100,71 +98,65 @@ const RestaurentMenu = () => {
           <p className="mt-1 text-sm">{itemcard?.card?.info?.description}</p>
           <h5 className="mt-1">Price ₹ {itemcard?.card?.info?.price / 100}</h5>
           <div
-  className="flex items-center h-5 w-10 gap-1 py-0 px-1 rounded-md mt-2"
-  style={{
-    backgroundColor:
-      restaurent.avgRating === "--" ||
-      parseFloat(
-        itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-      ) === 0
-        ? "#ffed4a" // Yellow color for unrated or zero rating
-        : parseFloat(
-            itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-          ) < 4.0
-        ? "#db7c38" // Red color for ratings less than 4.0
-        : "#48c479", // Green color for ratings greater than or equal to 4.0
-    color:
-      restaurent.avgRating === "--" ||
-      parseFloat(
-        itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-      ) === 0
-        ? "#000" // Black color for unrated or zero rating
-        : isNaN(
-            itemcard?.card?.info?.ratings.aggregatedRating.rating
-          )
-        ? "#535665" // Default color for invalid rating values
-        : "#fff", // White color for valid ratings
-  }}
->
-  <span>
-    {" "}
-    {itemcard?.card?.info?.ratings.aggregatedRating.rating || 0}{" "}
-  </span>
-  <span className="ml-6 rounded-lg">
-    <Star className="rounded-md"
-      style={{ 
-        backgroundColor:
-          restaurent.avgRating === "--" ||
-          parseFloat(
-            itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-          ) === 0
-            ? "#ffed4a" // Yellow color for unrated or zero rating
-            : parseFloat(
-                itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-              ) < 4.0
-            ? "#db7c38" // Red color for ratings less than 4.0
-            : "#48c479", // Green color for ratings greater than or equal to 4.0
-        color:
-          restaurent.avgRating === "--" ||
-          parseFloat(
-            itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
-          ) === 0
-            ? "#000" // Black color for unrated or zero rating
-            : isNaN(
-                itemcard?.card?.info?.ratings.aggregatedRating.rating
-              )
-            ? "#535665" // Default color for invalid rating values
-            : "#fff", // White color for valid ratings
-      }}
-    />
-  </span>
-</div>
-
-
-
-
-
-          
+            className="flex items-center h-5 w-10 gap-1 py-0 px-1 rounded-md mt-2"
+            style={{
+              backgroundColor:
+                restaurent.avgRating === "--" ||
+                parseFloat(
+                  itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
+                ) === 0
+                  ? "#ffed4a" // Yellow color for unrated or zero rating
+                  : parseFloat(
+                      itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
+                    ) < 4.0
+                  ? "#db7c38" // Red color for ratings less than 4.0
+                  : "#48c479", // Green color for ratings greater than or equal to 4.0
+              color:
+                restaurent.avgRating === "--" ||
+                parseFloat(
+                  itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
+                ) === 0
+                  ? "#000" // Black color for unrated or zero rating
+                  : isNaN(itemcard?.card?.info?.ratings.aggregatedRating.rating)
+                  ? "#535665" // Default color for invalid rating values
+                  : "#fff", // White color for valid ratings
+            }}
+          >
+            <span>
+              {" "}
+              {itemcard?.card?.info?.ratings.aggregatedRating.rating || 0}{" "}
+            </span>
+            <span className="ml-6 rounded-lg">
+              <Star
+                className="rounded-md"
+                style={{
+                  backgroundColor:
+                    restaurent.avgRating === "--" ||
+                    parseFloat(
+                      itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
+                    ) === 0
+                      ? "#ffed4a" // Yellow color for unrated or zero rating
+                      : parseFloat(
+                          itemcard?.card?.info?.ratings.aggregatedRating
+                            .rating || 0
+                        ) < 4.0
+                      ? "#db7c38" // Red color for ratings less than 4.0
+                      : "#48c479", // Green color for ratings greater than or equal to 4.0
+                  color:
+                    restaurent.avgRating === "--" ||
+                    parseFloat(
+                      itemcard?.card?.info?.ratings.aggregatedRating.rating || 0
+                    ) === 0
+                      ? "#000" // Black color for unrated or zero rating
+                      : isNaN(
+                          itemcard?.card?.info?.ratings.aggregatedRating.rating
+                        )
+                      ? "#535665" // Default color for invalid rating values
+                      : "#fff", // White color for valid ratings
+                }}
+              />
+            </span>
+          </div>
         </div>
         <div className="w-full md:w-48 h-40 flex justify-center md:justify-start">
           {itemcard?.card?.info?.imageId ? (
@@ -242,61 +234,67 @@ const RestaurentMenu = () => {
 
   return menuData.length === 0 ? (
     <MenuShimmer />
-  ) : filteredItems.length===0 ?(<div>
-    <div className="flex items-center justify-evenly mt-4 gap bg-slate-300 rounded-lg">
-      <div className="flex">
-        <input
-          className="border border-gray-400 rounded-l px-2 py-1 w-24 md:w-32 lg:w-48"
-          type="text"
-          placeholder="Search"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button
-          className="search-container flex items-center justify-center bg-red-300 rounded-r h-8 p-3 w-16 md:w-20 lg:w-24"
-          onClick={handleSearch}
-        >
-          Search
-        </button>
+  ) : filteredItems.length === 0 ? (
+    <div>
+      <div className="flex items-center justify-evenly mt-4 gap bg-slate-300 rounded-lg">
+        <div className="flex">
+          <input
+            className="border border-gray-400 rounded-l px-2 py-1 w-24 md:w-32 lg:w-48"
+            type="text"
+            placeholder="Search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button
+            className="search-container flex items-center justify-center bg-red-300 rounded-r h-8 p-3 w-16 md:w-20 lg:w-24"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+        </div>
+
+        <div className="flex items-center mt-2 mb-2 bg-gray-300 md:w-1/3 lg:w-1/4 xl:w-1/5 h-auto rounded-lg">
+          <label htmlFor="sort" className="mr-2 text-black font-bold">
+            Sort By:
+          </label>
+          <select
+            id="sort"
+            name="sort"
+            value={sortOption}
+            onChange={(e) => {
+              const selectedSortOption = e.target.value;
+              setSortOption(selectedSortOption);
+              handleSearch(selectedSortOption);
+            }}
+            className="border border-gray-300 rounded px-2 py-1 mt-2 focus:outline-none focus:border-red-200 mb-2 w-full"
+          >
+            <option value="">Select</option>
+            <option value="name_asc">Name (A to Z)</option>
+            <option value="name_desc">Name (Z to A)</option>
+            <option value="price_asc">Price (Low to High)</option>
+            <option value="price_desc">Price (High to Low)</option>
+            <option value="rating_asc">Rating (Low to High)</option>
+            <option value="rating_desc">Rating (High to Low)</option>
+          </select>
+        </div>
       </div>
 
-      <div className="flex items-center mt-2 mb-2 bg-gray-300 md:w-1/3 lg:w-1/4 xl:w-1/5 h-auto rounded-lg">
-        <label htmlFor="sort" className="mr-2 text-black font-bold">
-          Sort By:
-        </label>
-        <select
-          id="sort"
-          name="sort"
-          value={sortOption}
-          onChange={(e) => {
-            const selectedSortOption = e.target.value;
-            setSortOption(selectedSortOption);
-            handleSearch(selectedSortOption);
-          }}
-          className="border border-gray-300 rounded px-2 py-1 mt-2 focus:outline-none focus:border-red-200 mb-2 w-full"
-        >
-          <option value="">Select</option>
-          <option value="name_asc">Name (A to Z)</option>
-          <option value="name_desc">Name (Z to A)</option>
-          <option value="price_asc">Price (Low to High)</option>
-          <option value="price_desc">Price (High to Low)</option>
-          <option value="rating_asc">Rating (Low to High)</option>
-          <option value="rating_desc">Rating (High to Low)</option>
-        </select>
+      <div className="flex justify-center mt-4">
+        {" "}
+        {/* Center horizontally */}
+        <div className="bg-gray-100 rounded-lg p-4 w-1/4">
+          <h1 className="text-2xl font-bold mb-4">
+            Menu Items{" "}
+            <span className="text-gray-500 bg-red-200 rounded-full px-2">
+              {filteredItems.length}
+            </span>
+          </h1>
+        </div>
       </div>
+
+      <NoDataMessage searchText={searchText} />
     </div>
-
-    <div className="flex justify-center mt-4"> {/* Center horizontally */}
-      <div className="bg-gray-100 rounded-lg p-4 w-1/4">
-        <h1 className="text-2xl font-bold mb-4">
-          Menu Items{" "}
-          <span className="text-gray-500 bg-red-200 rounded-full px-2">{filteredItems.length}</span>
-        </h1>
-      </div>
-    </div>
-
-    <NoDataMessage searchText={searchText}/>
-  </div>):(
+  ) : (
     <div className="bg-white text-black p-8">
       <div className="flex flex-col md:flex-row justify-start gap-14 p-14 bg-black text-white rounded-lg">
         <div>
@@ -326,7 +324,9 @@ const RestaurentMenu = () => {
             >
               <span>{restaurent.avgRating}</span>
             </div>
-            <span className="ml-1 mr-4"><Star /></span>
+            <span className="ml-1 mr-4">
+              <Star />
+            </span>
           </div>
         </div>
       </div>
@@ -374,16 +374,18 @@ const RestaurentMenu = () => {
         </div>
       </div>
 
-      <div className="flex justify-center mt-4"> {/* Center horizontally */}
-  <div className="bg-gray-100 rounded-lg p-4 w-1/4">
-    <h1 className="text-2xl font-bold mb-4">
-      Menu Items{" "}
-      <span className="text-gray-500 bg-red-200 rounded-full px-2">{filteredItems.length}</span>
-
-    </h1>
-  </div>
-</div>
-
+      <div className="flex justify-center mt-4">
+        {" "}
+        {/* Center horizontally */}
+        <div className="bg-gray-100 rounded-lg p-4 w-1/4">
+          <h1 className="text-2xl font-bold mb-4">
+            Menu Items{" "}
+            <span className="text-gray-500 bg-red-200 rounded-full px-2">
+              {filteredItems.length}
+            </span>
+          </h1>
+        </div>
+      </div>
 
       {/* Items rendering */}
       <ul className="mt-4">{renderItems()}</ul>

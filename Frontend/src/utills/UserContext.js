@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { RestroData } from "../Config";
+// import { RestroData } from "../Config";
 
 
 
@@ -7,7 +7,7 @@ const UserContext=createContext({user:{
 
         name:"Saif khan",
         email:"saif@gmail.com",
-        RestroData,
+        // RestroData,
 
 }})
 // for showing the name in react developer tool 

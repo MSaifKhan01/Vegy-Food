@@ -18,7 +18,7 @@ passport.use(
       let user = {
         username: profile._json.name,
         email: profile._json.email,
-        // password: uuidv4(),
+      
         avtar: profile._json.picture,
         accessToken
       };

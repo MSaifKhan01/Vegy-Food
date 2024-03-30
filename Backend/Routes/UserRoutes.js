@@ -61,7 +61,9 @@ userRouter.post("/login",async(req,res)=>{
     bcrypt.compare(password,isUser.password,((err,result)=>{
       if(result){
 
-        const token=jwt.sign({userID:isUser._id},process.env.tokenSecretSign,{expiresIn:"1h"})
+        // console.log("-----user--",isUser,"-----------")
+
+        const token=jwt.sign({userID:isUser._id},process.env.tokenSecretSign,{expiresIn:"24h"})
         console.log({msg:"login succesful",token,isUser})
 
         res.status(200).send({msg:"login succesful",token,isUser});
@@ -93,26 +95,26 @@ userRouter.get(
 
 
 
-//---------------- Functions Here -----------------------------------
+// //---------------- Functions Here -----------------------------------
 
-function token_Generator(res, name, id, image) {
-  console.log("token genrater : --", res, name, image);
-  // let token = jwt.sign(
-  //     { user: name, userID: id ,role : "User" },
-  //     "jammi",
-  //     { expiresIn: "7d" }
-  // );
-  // let refreshToken = jwt.sign(
-  //     { user: name, id: id },
-  //     "jammi",
-  //     { expiresIn: "12d" }
-  // );
-  // res.cookie("token", token);
-  // res.redirect(`http://127.0.0.1:5500/PROJECT_Front/index.html?token=${token}&username=${name}&image=${image}`)
+// function token_Generator(res, name, id, image) {
+//   console.log("token genrater : --", res, name, image);
+//   // let token = jwt.sign(
+//   //     { user: name, userID: id ,role : "User" },
+//   //     "jammi",
+//   //     { expiresIn: "7d" }
+//   // );
+//   // let refreshToken = jwt.sign(
+//   //     { user: name, id: id },
+//   //     "jammi",
+//   //     { expiresIn: "12d" }
+//   // );
+//   // res.cookie("token", token);
+//   // res.redirect(`http://127.0.0.1:5500/PROJECT_Front/index.html?token=${token}&username=${name}&image=${image}`)
 
-  res.redirect(`https://vegy-food.vercel.app/`);
-  // res.status(202).json({ refreshToken });
-}
+//   res.redirect(`https://vegy-food.vercel.app/`);
+//   // res.status(202).json({ refreshToken });
+// }
 
 
 userRouter.get(
@@ -131,7 +133,7 @@ userRouter.get(
         const encryptedToken = bcrypt.hashSync(userData.accessToken, 10); // Encrypt the access token
         await UserModel.findByIdAndUpdate(existingUser._id, { password: encryptedToken });
 
-        const token = jwt.sign({ userID: existingUser._id }, process.env.tokenSecretSign, { expiresIn: "1h" });
+        const token = jwt.sign({ userID: existingUser._id }, process.env.tokenSecretSign, { expiresIn: "24h" });
         console.log("--------------------user Updated------------------")
         res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ existingUser, token }))}`);
       } else {
@@ -149,7 +151,7 @@ userRouter.get(
 
         // Fetch the newly created user from the database
         const newUserFromDB = await UserModel.findOne({ email: userData.email });
-        const token = jwt.sign({ userID: newUserFromDB._id }, process.env.tokenSecretSign, { expiresIn: "1h" });
+        const token = jwt.sign({ userID: newUserFromDB._id }, process.env.tokenSecretSign, { expiresIn: "24h" });
 
         console.log("--------------------new user added------------------")
 

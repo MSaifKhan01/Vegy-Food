@@ -1,4 +1,4 @@
-// Express setup
+
 const express = require("express");
 
 const { MailRouter } = require("./Routes/MailRoute");
@@ -12,7 +12,7 @@ const { Auth } = require("./Middleware/auth");
 const OrderRouter = require("./Routes/OrderRoute");
 const app = express();
 
-// Enable CORS for all origins and allow PATCH method
+// Enable CORS for all origins 
 app.use(cors({
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   }));
@@ -20,13 +20,14 @@ app.use(cors({
   // Middleware setup
   app.use(express.json());
   
-  // Your other route setups...
+
   
 
 app.use("/",userRouter)
 app.use("/Mail", MailRouter);
 app.use("/Cart", Auth, CartRouter);
-app.use("/order", Auth, OrderRouter);
+// app.use("/order", Auth, OrderRouter);
+app.use("/order",  OrderRouter);
 
 app.use("/",RestraurentRoute)
 
