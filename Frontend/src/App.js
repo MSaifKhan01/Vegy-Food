@@ -19,7 +19,8 @@ import UserContext from "./utills/UserContext.js"
 import {Provider} from "react-redux"
 import store from "./utills/store.js"
 import Cart from "./components/Cart.jsx"
-import Order from "./components/Order.jsx"
+import Dashboard from "./components/DashboardGetOrder.jsx"
+// import Order from "./components/Order.jsx"
 
 
 // lazy method using for code (component ) chunking 
@@ -91,7 +92,7 @@ const AppRouter= createBrowserRouter([
             },
             {
                 path:"/order",
-                element:<Order />
+                element:<Dashboard />
             }
        
         ]

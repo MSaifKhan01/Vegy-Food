@@ -220,15 +220,44 @@ function orderConfirmationMail(data) {
 OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
   const userID = req.userID;
   try {
+    let userData= await UserModel.findOne({_id:userID})
       let ordersData;
       if (req.userRole === "user") {
           ordersData = await orderModel.find({ UserID: userID });
       } else {
           ordersData = await orderModel.find();
       }
-      res.status(200).send(ordersData);
+      res.status(200).send({ordersData,userData});
   } catch (error) {
       res.status(500).send({ msg: error.message });
+  }
+});
+
+// PATCH route to update order status
+OrderRouter.patch('/update-status/:orderId', async (req, res) => {
+  const orderId = req.params.orderId;
+  const newStatus = req.body.status;
+  console.log("-----",newStatus,"-----")
+  console.log("-----",orderId,"-----")
+
+  try {
+    let order = await orderModel.findById(orderId);
+    console.log(order)
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (newStatus === 'Canceled') {
+      console.log(newStatus)
+      await orderModel.deleteOne({ _id: orderId });
+      return res.status(200).json({ message: "Order canceled and removed" });
+    } else {
+      order.status = newStatus;
+      await order.save();
+      return res.status(200).json({ message: "Order status updated successfully" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 });
 
