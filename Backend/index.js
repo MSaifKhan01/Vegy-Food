@@ -26,8 +26,8 @@ app.use(cors({
 app.use("/",userRouter)
 app.use("/Mail", MailRouter);
 app.use("/Cart", Auth, CartRouter);
-// app.use("/order", Auth, OrderRouter);
-app.use("/order",  OrderRouter);
+app.use("/order", Auth, OrderRouter);
+// app.use("/order",  OrderRouter);
 
 app.use("/",RestraurentRoute)
 

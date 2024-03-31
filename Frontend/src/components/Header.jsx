@@ -1,10 +1,10 @@
-import { Logo_Url } from "../Config";
+// import { Logo_Url } from "../Config";
 import { useContext, useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../utills/UserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCartItems } from "../utills/cartSlice";
-// import  {LogoJSA} from "../Image/LogoJSA.png"
+import  LogoJSA from "../Image/LogoJSA.png"
 
 const navLinks = [
   {
@@ -32,7 +32,7 @@ const navLinks = [
 export const Title = () => {
   return (
     <Link to="/">
-      <img className="logo ml-2.5 w-[70px]" alt={"logo"} src={Logo_Url} />
+      <img className="logo ml-2.5 w-[70px]" alt={"logo"} src={LogoJSA} />
     </Link>
   );
 };

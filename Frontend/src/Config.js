@@ -1,6 +1,6 @@
 // in this file i am using export like name export and in other file i am using like default export
 
-export const Logo_Url="https://img.freepik.com/free-vector/vegan-food-restaurant-logo-template_23-2148661988.jpg?w=740&t=st=1708435708~exp=1708436308~hmac=9c89899d8572d617ba6787af05fb7d3a5ced9bf3858107cac90db178c3faef76"
+// export const Logo_Url="https://img.freepik.com/free-vector/vegan-food-restaurant-logo-template_23-2148661988.jpg?w=740&t=st=1708435708~exp=1708436308~hmac=9c89899d8572d617ba6787af05fb7d3a5ced9bf3858107cac90db178c3faef76"
 
 // import  {LogoJSA} from "./Image/LogoJSA.png"
 

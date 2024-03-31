@@ -3,6 +3,8 @@ const express = require("express");
 const { orderModel } = require("../Model/OrderSchema");
 const { CartModel } = require("../Model/CartSchema");
 const { sendEmailOrderConfirm } = require("../Helper/Mail");
+const { RoleBase } = require("../Middleware/RoleBase");
+const { UserModel } = require("../Model/userSchema");
 
 const stripe = require("stripe")(process.env.stripe_Secret_key);
 
@@ -215,15 +217,20 @@ function orderConfirmationMail(data) {
 // });
 
 
-OrderRouter.get("/get-order",async(req,res)=>{
+OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
+  const userID = req.userID;
   try {
-    
-    let ordersData= await orderModel.find()
-    res.status(200).send(ordersData)
+      let ordersData;
+      if (req.userRole === "user") {
+          ordersData = await orderModel.find({ UserID: userID });
+      } else {
+          ordersData = await orderModel.find();
+      }
+      res.status(200).send(ordersData);
   } catch (error) {
-    res.status(401).send({ msg: error.message });
+      res.status(500).send({ msg: error.message });
   }
-})
+});
 
 
   

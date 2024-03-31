@@ -61,9 +61,9 @@ userRouter.post("/login",async(req,res)=>{
     bcrypt.compare(password,isUser.password,((err,result)=>{
       if(result){
 
-        // console.log("-----user--",isUser,"-----------")
+        console.log("-----user--",isUser,isUser.role,"-----------")
 
-        const token=jwt.sign({userID:isUser._id},process.env.tokenSecretSign,{expiresIn:"24h"})
+        const token=jwt.sign({userID:isUser._id,role:isUser.role},process.env.tokenSecretSign,{expiresIn:"24h"})
         console.log({msg:"login succesful",token,isUser})
 
         res.status(200).send({msg:"login succesful",token,isUser});
@@ -133,7 +133,7 @@ userRouter.get(
         const encryptedToken = bcrypt.hashSync(userData.accessToken, 10); // Encrypt the access token
         await UserModel.findByIdAndUpdate(existingUser._id, { password: encryptedToken });
 
-        const token = jwt.sign({ userID: existingUser._id }, process.env.tokenSecretSign, { expiresIn: "24h" });
+        const token = jwt.sign({ userID: existingUser._id,role:existingUser.role }, process.env.tokenSecretSign, { expiresIn: "24h" });
         console.log("--------------------user Updated------------------")
         res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ existingUser, token }))}`);
       } else {
@@ -151,7 +151,7 @@ userRouter.get(
 
         // Fetch the newly created user from the database
         const newUserFromDB = await UserModel.findOne({ email: userData.email });
-        const token = jwt.sign({ userID: newUserFromDB._id }, process.env.tokenSecretSign, { expiresIn: "24h" });
+        const token = jwt.sign({ userID: newUserFromDB._id,role:existingUser.role }, process.env.tokenSecretSign, { expiresIn: "24h" });
 
         console.log("--------------------new user added------------------")
 
