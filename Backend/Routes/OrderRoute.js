@@ -241,7 +241,8 @@ OrderRouter.patch('/update-status/:orderId', async (req, res) => {
   console.log("-----",orderId,"-----")
 
   try {
-    let order = await orderModel.findById(orderId);
+    let order = await orderModel.findById(orderId).populate("UserID");
+    console.log(order)
     console.log(order)
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
