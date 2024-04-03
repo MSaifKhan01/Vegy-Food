@@ -62,6 +62,7 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
 
         const result= await response.json()
         console.log("from Cart thunk increament Qty :-",result)
+        // GetCartItems()
 
         return result;
 

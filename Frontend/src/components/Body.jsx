@@ -20,8 +20,7 @@ import Banner04Img from "../Image/Banner04Img.png"
 import Banner05Img from "../Image/Banner05Img.png"
 import Banner06Img from "../Image/Banner06Img.png"
 
-import Login from "./Login.jsx";
-import Signup from "./SignUp.jsx";
+
 
 
 const Body = () => {
@@ -93,8 +92,7 @@ const Body = () => {
           className="w-full max-w-screen-lg h-auto sm:h-[200px] rounded-md"
         />
       </div>
-      <Signup />
-      <Login/>
+    
     <div className="m-10">
       <div className="flex items-center justify-evenly mt-4 gap bg-slate-300 rounded-lg">
         <div className="flex">

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetCartItems } from "../utills/cartSlice";
 import  LogoJSA from "../Image/LogoJSA.png"
 
+
 const navLinks = [
   {
     title: "Home",
@@ -39,15 +40,21 @@ export const Title = () => {
 
 export const NavComponent = () => {
   // const navigate = useNavigate();
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  // const [isLoggedin, setIsLoggedin] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const cartItem = useSelector((store) => store.cart.items);
   const Users = useSelector((store) => store.User.user);
+
+  const userData = sessionStorage.getItem("User");
+  console.log(userData)
+  const parsedUserData = JSON.parse(userData);
+  
   
   // console.log("rom reudx----:",Users)
 
   // console.log("errtty",cartItem)
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // const name = user ? user.name || user.email : null;
   // if(Users.length!==0){
@@ -67,22 +74,25 @@ export const NavComponent = () => {
   };
 
   const handleSignOut = () => {
-    setIsLoggedin(false);
+    // setIsLoggedin(false);
+    sessionStorage.clear()
+    window.location.href = "http://localhost:1234/";
+    // navigate('/');
     console.log("hkk out");
   };
 
   const handleSignIn = () => {
-    setIsLoggedin(true);
+    // setIsLoggedin(true);
     console.log("hkk in");
   };
 
   return (
     <div className="flex items-center justify-between ">
-      {isLoggedin ? (
+      {parsedUserData ? (
         <div className="flex justify-center items-center">
     <span className="py-2.5 px-1 mt-2.5 mr-1 font-bold text-green">
-  {Users.length !== 0 ? (
-    Users[Users.length - 1].isUser.username || Users[Users.length - 1].isUser.email 
+  {parsedUserData.username? (
+    parsedUserData.username || parsedUserData.email 
   ) : (
     "Please Login"
   )}
@@ -119,16 +129,17 @@ export const NavComponent = () => {
           </li>
 
           <li className="p-2.5">
-            <button
+           <Link to="/login">
+           <button
               className="nav--btn"
               onClick={() => {
-                isLoggedin ? handleSignOut() : handleSignIn();
+                parsedUserData ? handleSignOut() : handleSignIn();
               }}
             >
-              {isLoggedin ? "Logout" : "Login "}
+              {parsedUserData ? "Logout" : "Login "}
               <span
                 className={
-                  isLoggedin
+                  parsedUserData
                     ? "text-green-500 font-bold text-lg"
                     : "text-red-600 text-lg"
                 }
@@ -136,6 +147,7 @@ export const NavComponent = () => {
                 ●
               </span>
             </button>
+           </Link>
           </li>
         </ul>
       </div>
@@ -168,9 +180,9 @@ export const Header = () => {
   // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
   useEffect(() => {
     fetchCartItems(); // Initial fetch
-    const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
-    return () => clearInterval(intervalId); // Clean up on unmount
-  }, [dispatch]);
+    // const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
+    // return () => clearInterval(intervalId); // Clean up on unmount
+  }, []);
 
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 border-b bg-red-100 border-gray-200">

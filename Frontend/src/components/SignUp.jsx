@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SignUp } from "../utills/UserSlice";
-
+import { GoogleButton } from "react-google-button";
+import { Link } from "react-router-dom";
 const Signup = () => {
   const [signUpData, setSignUpData] = useState({});
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const Signup = () => {
     const Data = await dispatch(SignUp(signUpData));
     console.log("SignUp----", Data);
     alert(Data.payload.msg);
+    
+    // Clear input fields after successful signup
+    setSignUpData({});
   };
 
   const handleGoogleAuth = () => {
@@ -30,13 +34,11 @@ const Signup = () => {
     if (userDataParam !== null) {
       try {
         const userDataObj = JSON.parse(decodeURIComponent(userDataParam));
-        // console.log("From SignUp-----", userDataObj);
         sessionStorage.setItem("token", userDataObj.token);
         sessionStorage.setItem(
           "User",
           JSON.stringify(userDataObj.existingUser)
         );
-        // sessionStorage.setItem("userData", userDataParam);
       } catch (error) {
         setError("Error parsing user data");
       }
@@ -62,6 +64,7 @@ const Signup = () => {
               type="text"
               placeholder="Your name"
               onChange={getSignUpData}
+              value={signUpData.username || ""} 
             />
           </div>
           <div className="mb-4">
@@ -78,6 +81,7 @@ const Signup = () => {
               type="text"
               placeholder="Your email"
               onChange={getSignUpData}
+              value={signUpData.email || ""} 
             />
           </div>
           <div className="mb-6">
@@ -94,26 +98,46 @@ const Signup = () => {
               type="password"
               placeholder="Your password"
               onChange={getSignUpData}
+              value={signUpData.password || ""} 
             />
           </div>
           <div className="flex items-center justify-between">
-          
-
             <button
               onClick={handleSignup}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              className="bg-red-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded w-full"
             >
               {" "}
               Sign Up
             </button>
           </div>
         </form>
-        <button
+        {/* <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-full"
           onClick={handleGoogleAuth}
         >
           Sign Up with Google
-        </button>
+        </button> */}
+
+        
+<p className="text-center text-bio font-semibold mx-4 mb-0">
+                    OR
+                  </p>
+               
+                <div className="flex items-center justify-center  my-4">
+                  <GoogleButton type="dark" onClick={handleGoogleAuth} />
+                </div>
+                <div className="text-center">
+                  <p className="text-md font-semibold mt-2 pt-1 mb-0 text-blue-dark">
+                    Do you have an account  ?
+                    <Link
+                      to="/login"
+                      className="text-red-500 ml-2 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out "
+                    >
+                      Login Here
+                      
+                    </Link>
+                  </p>
+                </div>
       </div>
     </div>
   );
