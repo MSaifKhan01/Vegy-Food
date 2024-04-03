@@ -18,10 +18,9 @@ const Cart = () => {
 
   // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
   useEffect(() => {
-    fetchCartItems(); // Initial fetch
-    // const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
-    // return () => clearInterval(intervalId); // Clean up on unmount
-  }, []);
+    fetchCartItems(); 
+   
+  }, [dispatch]);
 
 
   useEffect(() => {

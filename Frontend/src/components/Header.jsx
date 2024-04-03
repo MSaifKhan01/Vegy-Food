@@ -56,16 +56,7 @@ export const NavComponent = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // const name = user ? user.name || user.email : null;
-  // if(Users.length!==0){
-    // const name = Users[Users.length-1].isUser ? Users[Users.length-1].isUser
-    // .  username || Users[Users.length-1].isUser
-    // .email : null;
-    // console.log(name)
-  // }
-
-
-
+ 
   const closeMenu = () => {
     const menu = document.querySelector(".menu-content-container");
     menu.classList.remove("active");
@@ -180,9 +171,8 @@ export const Header = () => {
   // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
   useEffect(() => {
     fetchCartItems(); // Initial fetch
-    // const intervalId = setInterval(fetchCartItems, 1000); // Fetch every 1 seconds
-    // return () => clearInterval(intervalId); // Clean up on unmount
-  }, []);
+
+  }, [dispatch]);
 
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 border-b bg-red-100 border-gray-200">

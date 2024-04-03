@@ -57,10 +57,51 @@ export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue
 
 
 
+export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { rejectWithValue }) => {
+  try {
+    const token = sessionStorage.getItem('token');
+    const response = await fetch('http://localhost:4000/order/get-order', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch orders');
+    }
+    const result = await response.json();
+    console.log("09-----Tunk--",result)
+    return result;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus', async ({ orderId, newStatus }, { rejectWithValue }) => {
+  try {
+    const token = sessionStorage.getItem('token');
+    await fetch(`http://localhost:4000/order/update-status/${orderId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: newStatus }),
+    });
+    return { orderId, newStatus };
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
+
+
 const OrderSlice= createSlice({
     name:"OrderSlice",
     initialState:{
         Order:[],
+        user: {},
         loading:false,
         error:null
     },
@@ -81,6 +122,38 @@ const OrderSlice= createSlice({
             state.loading=false
             state.error=action.error.message
         })
+
+        builder
+        .addCase(fetchOrders.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(fetchOrders.fulfilled, (state, action) => {
+          state.loading = false;
+          state.Order = action.payload.ordersData;
+          state.user = action.payload.userData;
+        })
+        .addCase(fetchOrders.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        })
+        .addCase(updateOrderStatus.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(updateOrderStatus.fulfilled, (state, action) => {
+          state.loading = false;
+          const { orderId, newStatus } = action.payload;
+          const orderIndex = state.Order.findIndex((order) => order._id === orderId);
+          if (orderIndex !== -1) {
+            state.Order[orderIndex].status = newStatus;
+          }
+        })
+        .addCase(updateOrderStatus.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        });
+  
 
 
    
