@@ -1,6 +1,7 @@
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 import { loadStripe } from "@stripe/stripe-js";
+import { Base_URL } from "../Config";
 
 
 export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue})=>{
@@ -15,7 +16,7 @@ export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue
         const token = sessionStorage.getItem("token");
       
   
-        const response = await fetch(`http://localhost:4000/order/Check-out`, {
+        const response = await fetch(`${Base_URL}/order/Check-out`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +61,7 @@ export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue
 export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { rejectWithValue }) => {
   try {
     const token = sessionStorage.getItem('token');
-    const response = await fetch('http://localhost:4000/order/get-order', {
+    const response = await fetch(`${Base_URL}/order/get-order`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { re
 export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus', async ({ orderId, newStatus }, { rejectWithValue }) => {
   try {
     const token = sessionStorage.getItem('token');
-    await fetch(`http://localhost:4000/order/update-status/${orderId}`, {
+    await fetch(`${Base_URL}/order/update-status/${orderId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

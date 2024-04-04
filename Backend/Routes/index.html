@@ -1,41 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order Confirmation</title>
+  <title>Order Status Update</title>
 </head>
 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
 
-    <h2 style="color: #333;">Order Confirmation</h2>
+  <h2 style="color: #333;">Your Order Status Changed</h2>
 
-    <p>Dear Customer,</p>
-    <p>Your order has been successfully placed with FORK & JSA Restaurant. Below are the order details:</p>
+  <div class="order-details" style="background-color: #fff; padding: 20px; border-radius: 5px; margin-top: 20px;">
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Your order status has been updated to: ${newStatus}</p>
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Order ID: ${order._id}</p>
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Total: ${order.total}</p>
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Status: ${order.status}</p>
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Time: ${order.timestamp}</p>
+    <p style="color: #666; font-weight: bold; margin: 5px 0;">Payment: ${order.payment ? 'Paid' : 'Unpaid'}</p>
+  </div>
 
-    <ul style="list-style-type: none; padding: 0;">
-        <li style="margin-bottom: 10px;">
-            <span style="display: inline-block; width: 200px;">Name: Chicken Biryani</span>
-            <span style="display: inline-block; width: 100px;">Price: $19.99</span>
-            <span style="display: inline-block; width: 100px;">Quantity: 1</span>
-        </li>
-        
-        <li style="margin-bottom: 10px;">
-            <span style="display: inline-block; width: 200px;">Name: Paneer Tikka</span>
-            <span style="display: inline-block; width: 100px;">Price: $15.99</span>
-            <span style="display: inline-block; width: 100px;">Quantity: 2</span>
-        </li>
-
-        <li style="margin-bottom: 10px;">
-            <span style="display: inline-block; width: 200px;">Status: Pending</span>
-            <span style="display: inline-block; width: 100px;">Time: 10:00 AM</span>
-        </li>
-
-        <li style="margin-bottom: 10px;">
-            <h3>Your Total Amount is <b style="color: #ff5722;">$52.97</b></h3>
-        </li>
-    </ul>
-
-    <p>Thank you for ordering with us!</p>
-    <p>Best regards,</p>
-    <p>FORK & JSA Restaurant Team</p>
+  <p class="thank-you" style="color: #009688; background-color: #f0f0f0; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 20px;">Thank you for choosing FORK & JSA Restaurant!</p>
 
 </body>
 </html>

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SignIn } from "../utills/UserSlice";
 import { GoogleButton } from "react-google-button";
-// import { Link } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Base_URL } from "../Config";
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
 
 function Login() {
   const [error, setError] = useState("");
@@ -12,6 +14,7 @@ function Login() {
     password: "",
   });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const setUserData = (e) => {
     const { name, value } = e.target;
@@ -22,23 +25,23 @@ function Login() {
     e.preventDefault();
     try {
       const action = await dispatch(SignIn(loginUserData));
-      if(action.payload.msg==="login succesful"){
+      if (action.payload) {
         console.log("Login Successful:", action.payload);
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("User", JSON.stringify(action.payload.isUser));
         alert(action.payload.msg);
         setLoginUserData({ email: "", password: "" }); // Reset input fields
+        navigate("/");
+      } else {
+        alert(action.payload.msg);
       }
-      alert(action.payload.msg);
-  
     } catch (error) {
       setError(error.message);
     }
   };
 
   const handleGoogleAuth = () => {
-    // window.location.href = "https://vegy-food.onrender.com/auth/google";
-    window.location.href = "http://localhost:4000/auth/google";
+    window.location.href = `${Base_URL}/auth/google`;
   };
 
   useEffect(() => {
@@ -56,6 +59,11 @@ function Login() {
     }
   }, []);
 
+  let isOnline = useOnline();
+  if (!isOnline) {
+    return <UserOffline />;
+  }
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
@@ -65,7 +73,7 @@ function Login() {
             type="text"
             placeholder="Your Email"
             name="email"
-            value={loginUserData.email} // Set input value
+            value={loginUserData.email}
             onChange={setUserData}
             className="border border-gray-400 rounded-lg px-4 py-2 mb-4 w-full"
           />
@@ -73,7 +81,7 @@ function Login() {
             type="password"
             placeholder="Your Password"
             name="password"
-            value={loginUserData.password} // Set input value
+            value={loginUserData.password}
             onChange={setUserData}
             className="border border-gray-400 rounded-lg px-4 py-2 mb-4 w-full"
           />
@@ -84,33 +92,20 @@ function Login() {
             Login here
           </button>
         </form>
-        {/* <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-full"
-          onClick={handleGoogleAuth}
-        >
-          Sign in with Google
-        </button> */}
-
-        
-                  <p className="text-center text-bio font-semibold mx-4 mb-0">
-                    OR
-                  </p>
-               
-                <div className="flex items-center justify-center  my-4">
-                  <GoogleButton type="dark" onClick={handleGoogleAuth} />
-                </div>
-                <div className="text-center">
-                  <p className="text-md font-semibold mt-2 pt-1 mb-0 text-blue-dark">
-                    Don't have an account ?
-                    <Link
-                      to="/Signup"
-                      className="text-red-500 ml-2 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-                    >
-                      Create an Account
-                      
-                    </Link>
-                  </p>
-                </div>
+        <div className="flex items-center justify-center my-4">
+          <GoogleButton type="dark" onClick={handleGoogleAuth} />
+        </div>
+        <div className="text-center">
+          <p className="text-md font-semibold mt-2 pt-1 mb-0 text-blue-dark">
+            Don't have an account ?
+            <Link
+              to="/Signup"
+              className="text-red-500 ml-2 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+            >
+              Create an Account
+            </Link>
+          </p>
+        </div>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
     </div>

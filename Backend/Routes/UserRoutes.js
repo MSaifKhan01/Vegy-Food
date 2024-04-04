@@ -11,7 +11,7 @@ const userRouter = express.Router();
 
 
 userRouter.post("/SignUp", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password ,role} = req.body;
 
   try {
     // Check if the user already exists with the provided email
@@ -27,7 +27,7 @@ userRouter.post("/SignUp", async (req, res) => {
       }
       
       // Create a new user with the hashed password
-      const newUser = new UserModel({ username, email, password: hash });
+      const newUser = new UserModel({ username, email, password: hash ,role});
       
       // Save the new user
       await newUser.save();

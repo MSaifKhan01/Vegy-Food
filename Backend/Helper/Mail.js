@@ -4,6 +4,7 @@ require("dotenv").config();
 
 // for Contact 
 const sendEmail = async (data) => {
+  console.log("data---",data)
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -15,8 +16,9 @@ const sendEmail = async (data) => {
 
   try {
     await transporter.sendMail({
+      from: `"FORK & JSA Restaurant" <${data.email}>`,
       to: process.env.EMAIL_ID,
-      from: data.email,
+      
       subject: data.subject,
       html: data.body,
     });

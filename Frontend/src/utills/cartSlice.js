@@ -1,12 +1,13 @@
 
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import { Base_URL } from "../Config"
 
 export const AddToCartItem= createAsyncThunk("AddToCart",async(data,{rejectWithValue})=>{
     // console.log("from fn thunk ",data)
     try {
         let token=sessionStorage.getItem("token")
         console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart/Add-toCart/${data.id}`,{
+        const response= await fetch(`${Base_URL}/Cart/Add-toCart/${data.id}`,{
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +30,7 @@ export const AddToCartItem= createAsyncThunk("AddToCart",async(data,{rejectWithV
 export const GetCartItems = createAsyncThunk("GetCart", async (_, { rejectWithValue }) => {
     let token=sessionStorage.getItem("token")
     try {
-        const response = await fetch("http://localhost:4000/Cart/Cart-data", {
+        const response = await fetch(`${Base_URL}/Cart/Cart-data`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -50,7 +51,7 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
     try {
         let token=sessionStorage.getItem("token")
         console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart/inc-qty/${id}`,{
+        const response= await fetch(`${Base_URL}/Cart/inc-qty/${id}`,{
             method:"PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export const DecreaseItemsQty = createAsyncThunk("DecItemQty",async(id,{rejectWi
     try {
         let token=sessionStorage.getItem("token")
         // console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart/dec-qty/${id}`,{
+        const response= await fetch(`${Base_URL}/Cart/dec-qty/${id}`,{
             method:"PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -103,7 +104,7 @@ export const DeleteItem = createAsyncThunk("DeleteItem",async(id,{rejectWithValu
     try {
         let token=sessionStorage.getItem("token")
         // console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart/remove-item/${id}`,{
+        const response= await fetch(`${Base_URL}/Cart/remove-item/${id}`,{
             method:"DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -129,7 +130,7 @@ export const ClearCart = createAsyncThunk("ClearCart",async(id,{rejectWithValue}
     try {
         let token=sessionStorage.getItem("token")
         console.log(token)
-        const response= await fetch(`http://localhost:4000/Cart/clear-cart`,{
+        const response= await fetch(`${Base_URL}/Cart/clear-cart`,{
             method:"DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -182,7 +183,8 @@ const cartSlice= createSlice({
             // console.log("AddToCartItem.fulfilled - data:", data);
         
             // Check if the data is not already present in state.items
-            if (!state.items.some(item => item.id === data.id || (item.Product && item.Product.id === data.id))) {
+            // state.items.length===0 ||
+            if (!state.items.some(item => item.id === data.id || (item.Product && item.Product.id === data.id ))) {
                 // Add the data to state.items
                 state.items.push(data);
             }

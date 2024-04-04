@@ -3,6 +3,9 @@ import { useDispatch } from "react-redux";
 import { SignUp } from "../utills/UserSlice";
 import { GoogleButton } from "react-google-button";
 import { Link } from "react-router-dom";
+import { Base_URL } from "../Config";
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
 const Signup = () => {
   const [signUpData, setSignUpData] = useState({});
   const dispatch = useDispatch();
@@ -24,7 +27,7 @@ const Signup = () => {
 
   const handleGoogleAuth = () => {
     // window.location.href = "https://vegy-food.onrender.com/auth/google";
-    window.location.href = "http://localhost:4000/auth/google";
+    window.location.href = `${Base_URL}/auth/google`;
   };
 
   useEffect(() => {
@@ -44,6 +47,10 @@ const Signup = () => {
       }
     }
   }, []);
+  let isOnline = useOnline();
+  if (!isOnline) {
+    return <UserOffline />;
+  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">

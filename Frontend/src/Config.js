@@ -6,6 +6,8 @@
 
 // export const Logo_Url=LogoJSA
 
+export const Base_URL="http://localhost:4000"
+
 
 export const  SWIGGY_IMAGE_CDN_id = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
 

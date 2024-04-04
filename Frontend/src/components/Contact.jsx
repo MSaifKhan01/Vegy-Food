@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Base_URL } from "../Config";
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,13 +19,17 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/Mail", formData);
+      await axios.post(`${Base_URL}/Mail`, formData);
       alert("Message sent successfully!");
       setFormData({ username: "", email: "", message: "" });
     } catch (error) {
       setError("Failed to send message. Please try again later.");
     }
   };
+  let isOnline = useOnline();
+  if (!isOnline) {
+    return <UserOffline />;
+  }
 
   return (
     <div className="bg-gradient-to-r from-[#35374B] to-[#121212] text-base w-screen h-screen flex justify-center items-center">

@@ -19,6 +19,7 @@ import Banner02Img from "../Image/Banner02Img.png"
 import Banner04Img from "../Image/Banner04Img.png"
 import Banner05Img from "../Image/Banner05Img.png"
 import Banner06Img from "../Image/Banner06Img.png"
+import { Base_URL } from "../Config.js";
 
 
 
@@ -41,7 +42,7 @@ const Body = () => {
     // );
 
     // const Data2 = await fetch("https://vegy-food.onrender.com/restaurants");
-    const Data2 = await fetch("http://localhost:4000/restaurants");
+    const Data2 = await fetch(`${Base_URL}/restaurants`);
 
     let ReadyData = await Data2.json();
     // console.log(ReadyData)
@@ -75,7 +76,24 @@ const Body = () => {
     }, 3000);
 
     return () => clearInterval(intervalId);
+    
   }, [images.length]);
+
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(window.location.search);
+    const userDataParam = urlParams.get("userData");
+
+    if (userDataParam !== null) {
+      try {
+        const userDataObj = JSON.parse(decodeURIComponent(userDataParam));
+        sessionStorage.setItem("token", userDataObj.token);
+        sessionStorage.setItem("User", JSON.stringify(userDataObj.existingUser));
+      } catch (error) {
+        setError("Error parsing user data");
+      }
+    }
+    
+  })
 
 
   if (!isOnline) {

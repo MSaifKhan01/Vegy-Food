@@ -1,10 +1,18 @@
 import React from 'react';
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
+
+import AboutImage from "../Image/AboutImage.png"
 
 const About = () => {
+  let isOnline = useOnline();
+  if (!isOnline) {
+    return <UserOffline />;
+  }
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-lg min-h-screen flex flex-col justify-center items-center">
       <div className="max-w-xl w-full">
-        <img src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/ttl0azfrovxbrheica7z" alt="Image" className="w-full h-96 object-cover rounded-t-lg" />
+        <img src={AboutImage} alt="Image" className="w-full h-96 p-8 object-cover rounded-t-lg" />
         <div className="text-center mt-8">
           <h3 className="text-green-400 text-2xl font-bold mb-2">
             Make your <span className="text-yellow-400">choice</span> right now!

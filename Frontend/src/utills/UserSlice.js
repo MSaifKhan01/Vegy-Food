@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Base_URL } from "../Config";
 
 export const SignUp = createAsyncThunk(
   "SignUp",
   async (data, { rejectWithValue }) => {
     try {
       // const response = await fetch("https://vegy-food.onrender.com/SignUp", {
-      const response = await fetch("http://localhost:4000/SignUp", {
+      const response = await fetch(`${Base_URL}/SignUp`, {
         method: "POST",
         headers: {
           "Content-Type": "Application/json",
@@ -24,7 +25,7 @@ export const SignIn = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       // const response = await fetch("https://vegy-food.onrender.com/login", {
-      const response = await fetch("http://localhost:4000/login", {
+      const response = await fetch(`${Base_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders, updateOrderStatus } from '../utills/OrderSlice';
+import UserOrders from './UserOrder';
+// import useOnline from "../Hooks/useOnline.jsx";
+// import UserOffline from "./UserOffline.jsx";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.Order.Order);
+  
   const user = useSelector((state) => state.Order.user);
   const loading = useSelector((state) => state.Order.loading);
   const error = useSelector((state) => state.Order.error);
+  console.log("----",user,orders)
 
   useEffect(() => {
     dispatch(fetchOrders());
@@ -40,8 +45,17 @@ const Dashboard = () => {
     }
   };
 
+  // let isOnline = useOnline();
+  //  if (!isOnline) {
+  //   return <UserOffline />;
+  // }
+
   return (
-    <div className="container mx-auto px-4 py-8">
+ <>
+    {
+      user.role==="user"? (<UserOrders />) :(
+        <div className="container mx-auto px-4 py-8">
+    
       <h1 className="text-3xl font-bold mb-8 text-red-300 text-center">Admin Order Dashboard</h1>
       <table className="w-full border-collapse border border-gray-300">
         <thead>
@@ -59,7 +73,8 @@ const Dashboard = () => {
           {orders.map((order) => (
             <tr key={order._id}>
               <td className="p-2 border border-gray-300">{order._id}</td>
-              <td className="p-2 border border-gray-300">{user.username}</td>
+              <td className="p-2 border border-gray-300">{order.UserID
+.username}</td>
               <td className="p-2 border border-gray-300">{order.total}</td>
               <td className="p-2 border border-gray-300">{order.timestamp}</td>
               <td className="p-2 border border-gray-300 text-green-500">{order.payment ? 'Paid' : 'Unpaid'}</td>
@@ -83,7 +98,11 @@ const Dashboard = () => {
           ))}
         </tbody>
       </table>
+      
     </div>
+      )
+    }
+ </>
   );
 };
 

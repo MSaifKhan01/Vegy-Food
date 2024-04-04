@@ -4,6 +4,8 @@ import CartItem from "./CartItem";
 import CheckoutCart from "./CheckOutCart";
 import { ClearCart, GetCartItems } from "../utills/cartSlice.js";
 import EmptyCart from "./EmptyCart.jsx";
+import useOnline from "../Hooks/useOnline.jsx";
+import UserOffline from "./UserOffline.jsx";
 
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
@@ -37,6 +39,11 @@ const Cart = () => {
     // Implement logic to clear cart
     dispatch(ClearCart());
   };
+
+  let isOnline = useOnline();
+  if (!isOnline) {
+    return <UserOffline />;
+  }
 
   return (
     <div className="p-4 m-4">

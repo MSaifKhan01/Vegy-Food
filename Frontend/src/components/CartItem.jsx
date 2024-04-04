@@ -5,6 +5,7 @@ import { DecreaseItemsQty, DeleteItem, GetCartItems, IncreaseItemsQty } from "..
 const CartItem = ({ product, Quantity }) => {
   // console.log("from cart item ", product, Quantity);
   const { name, description, price, imageId, id } = product;
+  console.log("-----",name,product)
 
   const dispatch = useDispatch();
 

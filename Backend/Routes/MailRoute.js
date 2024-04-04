@@ -9,7 +9,7 @@ MailRouter.post("/", (req, res) => {
 
   const userData = {
     email: email,
-    subject: "Vegy-Food",
+    subject: "FORK & JSA Restaurant Contact",
     body: `
     <html>
     <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
@@ -19,7 +19,7 @@ MailRouter.post("/", (req, res) => {
         <p style="color: #666;">Please respond to this message promptly. Click <a href="mailto:${email}" style="color: red; text-decoration: underline;">here</a> to reply.</p>
         <p style="color: #666; font-style: italic; font-size: 22px;">Best regards,</p>
         
-        <p style="color: #009688; background-color: #f0f0f0; padding: 10px; border-radius: 5px; font-weight: bold; font-size: 18px;">Vegy-Food Team</p>
+        <p style="color: #009688; background-color: #f0f0f0; padding: 10px; border-radius: 5px; font-weight: bold; font-size: 18px;">FORK & JSA Restaurant Team</p>
 
 
     </body>

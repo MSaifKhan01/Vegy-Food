@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RestaurenInfo_Menu_URL } from "../Config";
+import { Base_URL, RestaurenInfo_Menu_URL } from "../Config";
 
 const useRestaurantMenu = (id) => {
   const [restaurent, setRestaurent] = useState({});
@@ -12,7 +12,7 @@ const useRestaurantMenu = (id) => {
 
 
         // const response = await fetch(`https://vegy-food.onrender.com/restaurants?restaurantId=${id}`);
-        const response = await fetch(`http://localhost:4000/restaurants?restaurantId=${id}`);
+        const response = await fetch(`${Base_URL}/restaurants?restaurantId=${id}`);
 
  
       const data = await response.json();

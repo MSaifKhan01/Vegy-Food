@@ -131,11 +131,11 @@ function orderConfirmationMail(data) {
         body: `
             <html>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 10px 20px;">
-                    <h2 style="color: #333;">Order Confirmation</h2>
+                    <h2 style="color: #333;">Thank You for your Order </h2>
                     
                     <p>Dear <span style="font-weight: bold; color: #4CAF50; font-size: larger;">${data.userData.username}</span>,</p>
 
-                    <p>Your order has been successfully placed with FORK & JSA Restaurant. <span style="font-weight: bold; color: #4CAF50; font-size: larger;">Below are the order details</span>:</p>
+                    <p>Your order has been successfully Confirmed with FORK & JSA Restaurant. <span style="font-weight: bold; color: #4CAF50; font-size: larger;">Below are the order details</span>:</p>
                     
                     <table style="border-collapse: collapse; width: 100%;">
                         <thead style="background-color: #f2f2f2;">
@@ -223,9 +223,9 @@ OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
     let userData= await UserModel.findOne({_id:userID})
       let ordersData;
       if (req.userRole === "user") {
-          ordersData = await orderModel.find({ UserID: userID });
+          ordersData = await orderModel.find({ UserID: userID }).populate("UserID");
       } else {
-          ordersData = await orderModel.find();
+          ordersData = await orderModel.find().populate("UserID");;
       }
       res.status(200).send({ordersData,userData});
   } catch (error) {
@@ -237,30 +237,77 @@ OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
 OrderRouter.patch('/update-status/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
   const newStatus = req.body.status;
-  console.log("-----",newStatus,"-----")
-  console.log("-----",orderId,"-----")
+  console.log("-----", newStatus, "-----");
+  console.log("-----", orderId, "-----");
 
   try {
     let order = await orderModel.findById(orderId).populate("UserID");
-    console.log(order)
-    console.log(order)
+    console.log(order);
+    
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
     if (newStatus === 'Canceled') {
-      console.log(newStatus)
+      console.log(newStatus);
       await orderModel.deleteOne({ _id: orderId });
       return res.status(200).json({ message: "Order canceled and removed" });
     } else {
       order.status = newStatus;
       await order.save();
+      
+      // Prepare email data
+      const emailData = {
+        email: order.UserID.email,
+        subject: 'Order Status Update',
+        body: `
+          <html>
+          <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+
+  <div style="max-width: 600px; margin: 0 auto; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+
+    <header style="background-color: #009688; color: #fff; padding: 20px; text-align: center; border-radius: 10px 10px 0 0;">
+      <h1 style="font-size: 24px; margin: 0;">Your Order Status Update</h1>
+    </header>
+
+    <div style="padding: 20px;">
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Dear Customer,</p>
+
+      <p style="font-size: 18px; color: #333; font-weight: bold; margin-bottom: 10px;">Your order status has been updated:</p>
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Order ID: ${order._id}</p>
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">
+  <span style="background-color: #ffcc80; padding: 5px; border-radius: 3px;">New Status: ${newStatus}</span>
+</p>
+
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Total Amount: ₹${order.total}</p>
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Order Time: ${order.timestamp}</p>
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Payment Status: ${order.payment ? 'Paid' : 'Unpaid'}</p>
+
+      <p class="thank-you" style="color: #009688; background-color: #f0f0f0; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 20px;">Thank you for choosing FORK & JSA Restaurant!</p>
+    </div>
+
+    <footer style="background-color: #f0f0f0; padding: 20px; border-radius: 0 0 10px 10px; text-align: center;">
+      <p style="font-size: 14px; color: #999; margin: 0;">This is an automated message. Please do not reply.</p>
+    </footer>
+
+  </div>
+
+</body>
+
+          </html>
+      `,
+      };
+
+      // Send email
+      sendEmailOrderConfirm(emailData);
+
       return res.status(200).json({ message: "Order status updated successfully" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 });
+
 
 
   
