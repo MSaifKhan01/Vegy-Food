@@ -3,7 +3,8 @@ const { passport } = require("../Helper/GoogleOauth");
 const { UserModel } = require("../Model/userSchema");
 
 const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
+const jwt=require("jsonwebtoken");
+const { sendEmailForOTP } = require("../Helper/Mail");
 
 const userRouter = express.Router();
 
@@ -166,5 +167,109 @@ userRouter.get(
 
 
 
+
+
+// Function to generate OTP
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+};
+var arr=[]
+
+
+
+// Route to request OTP and update password
+userRouter.post("/request-otp", async (req, res) => {
+  const { email } = req.body;
+
+  console.log("jghgbh2")
+
+  try {
+    // // Generate OTP
+    // const otp = generateOTP();
+
+    // Save OTP to user document in the database
+    let UserData = await UserModel.findOneAndUpdate({ email });
+
+ 
+
+    const otp = generateOTP();
+     arr.push(otp)
+
+    const emailData = {
+      email: UserData.email,
+      subject: "Your OTP - FORK & JSA Restaurant",
+      body: `
+        <html>
+        <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <div style="background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #333; text-align: center; margin-bottom: 20px;">OTP Verification</h2>
+            
+            <p style="font-size: 16px;">Dear ${UserData.username},</p>
+      
+            <p style="font-size: 18px; margin-bottom: 20px;">Your OTP for verification is: <span style="font-weight: bold; color: #ff5722;">${otp}</span></p>
+            
+            <p style="font-size: 16px; margin-bottom: 20px;">Please use this OTP to complete the verification process.</p>
+            
+            <p style="font-size: 16px;">Thank you for using our service!</p>
+            
+            <div style="border-top: 1px solid #ccc; margin-top: 30px; padding-top: 20px;">
+              <p style="font-weight: bold; font-size: 16px; margin-bottom: 10px;">Best regards,</p>
+              <p style="font-size: 16px;">FORK & JSA Restaurant Team</p>
+            </div>
+          </div>
+        </div>
+      </body>
+      
+        </html>
+      `,
+    };
+
+    sendEmailForOTP(emailData);
+
+    res.status(200).send({ email, otp });
+
+  } catch (error) {
+    console.error("Error requesting OTP:", error);
+    res.status(500).send({ msg: "Failed to request OTP" });
+  }
+});
+
+
+
+// Route for OTP verification
+userRouter.post("/verify-otp", async (req, res) => {
+  try {
+    const { otp } = req.body;
+
+    // Check if the OTP matches the one stored in memory or database
+    const storedOTP = arr.filter((item) => item === otp);
+    console.log(arr);
+
+    if (storedOTP === -1) {
+      return res.status(400).send({ error: "Invalid OTP" });
+    }
+
+    // If OTP is valid, perform necessary actions (e.g., update password)
+    // Example: Update the password
+    // userData.password = newPassword;
+    // await userData.save();
+
+    // Clear the stored OTP from memory or database
+    arr.splice(storedOTP, 1);
+    console.log("knjknjn",arr);
+
+    res.status(200).send({ message: "OTP verified successfully" });
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    res.status(500).send({ error: "Failed to verify OTP" });
+  }
+});
+
+
+
+
+
+console.log("------",arr)
 
 module.exports = { userRouter };

@@ -54,6 +54,33 @@ const sendEmailOrderConfirm = async (data) => {
 
 
 
-module.exports= {sendEmail,sendEmailOrderConfirm}
+
+// for order
+const sendEmailForOTP = async (data) => {
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
+      user: process.env.EMAIL_ID,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  try {
+    await transporter.sendMail({
+      to: data.email,
+      from:  `"FORK & JSA OTP" <${ process.env.EMAIL_ID}>`,
+      subject: data.subject,
+      html: data.body,
+    });
+    console.log("Mail sent successfully OTP");
+  } catch (err) {
+    console.error("Error sending email:", err);
+  }
+};
+
+
+
+module.exports= {sendEmail,sendEmailOrderConfirm,sendEmailForOTP}
 
 

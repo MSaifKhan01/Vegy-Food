@@ -81,6 +81,7 @@
 
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Base_URL } from '../Config';
 // import { userVerify } from "../services/Apis";
 
 const OtpForPassword = () => {
@@ -98,29 +99,49 @@ const OtpForPassword = () => {
     // Call the backend to send OTP to the provided email
     // Here, we simulate the backend call with a timeout
     // Replace this with your actual backend call
-    setTimeout(() => {
-      setShowOtpInput(true); // Show the OTP input boxes after a delay
-    }, 1000);
+
+    const res= await fetch(`${Base_URL}/request-otp`,{
+      method:"POST",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    })
+    if (res.ok) {
+      setShowOtpInput(true);
+      let emaildata= await res.json(); 
+      console.log("jghgbh1",emaildata)
+    }
+    // setTimeout(() => {
+    //   setShowOtpInput(true); // Show the OTP input boxes after a delay
+    // }, 1000);
   };
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
-    // Validate OTP and perform necessary actions
-    const data = {
-      otp,
-      email: location.state || email
-    };
-    // Call the backend to verify the OTP
-    const response = await userVerify(data);
-    if (response.status === 200) {
-      localStorage.setItem("userdbtoken", response.data.userToken);
-      // Redirect to the dashboard upon successful verification
-      navigate("/dashboard");
-    } else {
-      // Handle error
-      console.error(response.response.data.error);
+    try {
+      const res = await fetch(`${Base_URL}/verify-otp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp }),
+      });
+  
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("userdbtoken", data.message); // Change 'userToken' to 'message'
+        // Redirect to the dashboard upon successful verification
+        navigate("/login");
+      } else {
+        throw new Error("Invalid OTP");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      // Handle error here (e.g., display error message to user)
     }
   };
+  
 
   return (
     <section className="flex justify-center items-center h-screen bg-gray-100">
@@ -152,7 +173,7 @@ const OtpForPassword = () => {
         ) : (
           <form className="space-y-4" onSubmit={handleOtpSubmit}>
             <div className="space-y-1">
-              <label htmlFor="otp" className="font-semibold text-gray-600 block">OTP</label>
+              {/* <label htmlFor="otp" className="font-semibold text-gray-600 block">OTP</label> */}
               <div className="flex justify-center gap-2">
                 {[...Array(6)].map((_, index) => (
                   <input
