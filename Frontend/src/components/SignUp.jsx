@@ -18,7 +18,7 @@ const Signup = () => {
     e.preventDefault();
 
     const Data = await dispatch(SignUp(signUpData));
-    console.log("SignUp----", Data);
+    // console.log("SignUp----", Data);
     alert(Data.payload.msg);
     
     // Clear input fields after successful signup

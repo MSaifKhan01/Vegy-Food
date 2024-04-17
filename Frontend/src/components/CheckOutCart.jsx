@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MakeOrder } from "../utills/OrderSlice";
-// import { loadStripe } from "@stripe/stripe-js";
+
 
 const CheckoutCart = () => {
   const dispatch= useDispatch()
   const cartItems = useSelector((store) => store.cart.items) ?? [];
 
-  // console.log("from checkhout---------------------------------",cartItems)
+
   const deliveryFee = 20;
   const platformFee = 5.004;
   const gstRate = 0.18; // GST rate of 18%

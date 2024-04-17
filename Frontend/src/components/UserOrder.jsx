@@ -5,7 +5,7 @@ import {  updateOrderStatus } from '../utills/OrderSlice';
 const UserOrders = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.Order.Order);
-  console.log("------", orders);
+  // console.log("------", orders);
 
   const handleCancelOrder = (orderId) => {
     let newStatus="Canceled"

@@ -10,18 +10,13 @@ import UserOffline from "./UserOffline.jsx";
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const cartItems = useSelector((store) => store.cart.items);
+  
+
   const dispatch = useDispatch();
 
-  // Function to fetch cart items
-  const fetchCartItems = () => {
-    dispatch(GetCartItems());
-    console.log("hbhbjb")
-  };
-
-  // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
+  // Dispatch GetCartItems action on component mount
   useEffect(() => {
-    fetchCartItems(); 
-   
+    dispatch(GetCartItems());
   }, [dispatch]);
 
 
@@ -36,7 +31,7 @@ const Cart = () => {
   }, [cartItems]);
 
   const handleClearCart = () => {
-    // Implement logic to clear cart
+  
     dispatch(ClearCart());
   };
 
@@ -64,9 +59,12 @@ const Cart = () => {
        <div className="flex m-2 gap-4">
          <div className="w-3/5">
       {cartItems.map((item, index) => (
-        <CartItem key={index} product={item.Product}  Quantity={item.Quantity}/>
+        // console.log("-----",item,item.Quantity)
+   
+        <CartItem key={index} Item={item}  Quantity={item.Quantity}/>
       ))}
-  
+
+  {/* <CartItem /> */}
     </div>
     <CheckoutCart  />
     </div>

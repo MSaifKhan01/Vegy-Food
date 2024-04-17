@@ -1,14 +1,13 @@
 import { useState } from "react";
 
-// import instamart from "../Image/instamart.png"
-// import InstaCanva from "../Image/InstaCanva.png"
+
 import InstamartCanva from "../Image/InstamartCanva.png"
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 
 
 const Instamart = () => {
-    // const [visibleSection,setVisibleSection]=useState("")
+   
 
     let isOnline = useOnline();
     if (!isOnline) {

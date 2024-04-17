@@ -5,7 +5,7 @@ const useRestaurantMenu = (id) => {
   const [restaurent, setRestaurent] = useState({});
   const [menuData, setMenuData] = useState([]);
   const [allItemCardsItem, setAllItemCardsItem] = useState([]);
-  console.log("from helper data ", menuData);
+  // console.log("from helper data ", menuData);
 
   const getRestaurentData = async () => {
     try {
@@ -16,11 +16,11 @@ const useRestaurantMenu = (id) => {
 
  
       const data = await response.json();
-      console.log("res from helper", response);
+      // console.log("res from helper", response);
 
       const menuTargatedData =
         data?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-      console.log("from helper 2------", menuTargatedData);
+      // console.log("from helper 2------", menuTargatedData);
       setMenuData(menuTargatedData);
 
       const allItemCards = [];

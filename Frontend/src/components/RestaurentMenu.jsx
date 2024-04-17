@@ -27,7 +27,7 @@ const RestaurentMenu = () => {
   const restaurent = RestauroInfoAndMenu.restaurent;
   // console.log("-------resto", restaurent);
   const menuData = RestauroInfoAndMenu.menuData;
-  console.log("hvhvh", RestauroInfoAndMenu);
+  // console.log("hvhvh", RestauroInfoAndMenu);
   const allItemCardsItem = RestauroInfoAndMenu.allItemCardsItem;
 
   let isOnline = useOnline();
@@ -40,12 +40,12 @@ const RestaurentMenu = () => {
     // dispatch(addItem(item));
 
     dispatch(AddToCartItem(item));
-    console.log("from cart for checking Id:", item);
+    // console.log("from cart for checking Id:", item);
   };
 
-  const handleClearCart = () => {
-    // dispatch(clearCart());
-  };
+  // const handleClearCart = () => {
+  //   // dispatch(clearCart());
+  // };
   console.log("simple from", sortOption);
 
   if (!isOnline) {
@@ -73,10 +73,7 @@ const RestaurentMenu = () => {
     setCurrentPage(1); // Reset to first page after search
   };
 
-  // const handleSortChange = (e) => {
-  //   setSortOption(e.target.value);
-  //   handleSearch()
-  // };
+
 
   // Pagination
   const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);

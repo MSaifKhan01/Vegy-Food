@@ -1,10 +1,12 @@
-// import { Logo_Url } from "../Config";
+
 import { useContext, useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../utills/UserContext";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCartItems } from "../utills/cartSlice";
+import { GetCartItems } from "../utills/cartSlice.js";
+import UserContext from "../utills/UserContext";
+
 import  LogoJSA from "../Image/LogoJSA.png"
+
 
 
 const navLinks = [
@@ -39,20 +41,17 @@ export const Title = () => {
 };
 
 export const NavComponent = () => {
-  // const navigate = useNavigate();
-  // const [isLoggedin, setIsLoggedin] = useState(false);
+
   const [menuActive, setMenuActive] = useState(false);
   const cartItem = useSelector((store) => store.cart.items);
   const Users = useSelector((store) => store.User.user);
 
   const userData = sessionStorage.getItem("User");
-  console.log(userData)
+  // console.log("userData",userData)
   const parsedUserData = JSON.parse(userData);
   
   
-  // console.log("rom reudx----:",Users)
 
-  // console.log("errtty",cartItem)
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -160,19 +159,24 @@ export const NavComponent = () => {
 export const Header = () => {
 
   const dispatch=useDispatch()
+  const cartItems = useSelector((store) => store.cart.items);
+   
+  const fetchCartItems = () => {
+    dispatch(GetCartItems());
+    console.log("fetchCartItems called");
+  };
 
-    // Function to fetch cart items
-    const fetchCartItems = () => {
-      dispatch(GetCartItems());
-      console.log("uiuoj")
-    };
-
-    
-  // // Dispatch GetCartItems action on component mount and then repeatedly every 1 seconds
+  
   useEffect(() => {
-    fetchCartItems(); // Initial fetch
-
+    // setTimeout(() => {
+      fetchCartItems();
+    // }, 1000);
+    console.log("useEffect called ------")
   }, [dispatch]);
+
+
+
+  
 
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 border-b bg-red-100 border-gray-200">
@@ -184,3 +188,4 @@ export const Header = () => {
 };
 
 export default Header;
+

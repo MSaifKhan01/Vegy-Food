@@ -31,7 +31,9 @@ function Login() {
         sessionStorage.setItem("User", JSON.stringify(action.payload.isUser));
         alert(action.payload.msg);
         setLoginUserData({ email: "", password: "" }); // Reset input fields
-        navigate("/");
+        // navigate("/");
+        window.location.href = "http://localhost:1234";
+
       } else {
         alert(action.payload.msg);
       }

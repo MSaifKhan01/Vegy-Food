@@ -12,7 +12,7 @@ const Dashboard = () => {
   const user = useSelector((state) => state.Order.user);
   const loading = useSelector((state) => state.Order.loading);
   const error = useSelector((state) => state.Order.error);
-  console.log("----",user,orders)
+  // console.log("----",user,orders)
 
   useEffect(() => {
     dispatch(fetchOrders());

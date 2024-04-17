@@ -42,7 +42,7 @@ const sendEmailOrderConfirm = async (data) => {
   try {
     await transporter.sendMail({
       to: data.email,
-      from:  process.env.EMAIL_ID,
+      from:  `"FORK & JSA Restaurant-Order" <${ process.env.EMAIL_ID}>`,
       subject: data.subject,
       html: data.body,
     });

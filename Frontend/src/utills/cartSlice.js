@@ -153,7 +153,8 @@ export const ClearCart = createAsyncThunk("ClearCart",async(id,{rejectWithValue}
 const cartSlice= createSlice({
     name:"cart",
     initialState:{
-        items:[],
+        // items:[],
+        items: [], // Initialize items as an empty array
         loading:false,
         error:null
     },
@@ -179,16 +180,18 @@ const cartSlice= createSlice({
         builder.addCase(AddToCartItem.fulfilled, (state, action) => {
             state.loading = false;
             const { data } = action.payload;
-            // console.log("AddToCartItem.fulfilled - action payload:", action.payload);
-            // console.log("AddToCartItem.fulfilled - data:", data);
+            console.log("hjvbjbhb",state.items)
         
-            // Check if the data is not already present in state.items
-            // state.items.length===0 ||
-            if (!state.items.some(item => item.id === data.id || (item.Product && item.Product.id === data.id ))) {
-                // Add the data to state.items
+            if (
+                !state.items  ||
+                !state.items.some(item => item.id === data.id) ||
+                !state.items.some(item => item.Product && item.Product.id === data.id)
+            ) {
                 state.items.push(data);
             }
+            
         });
+        
         
 
         builder.addCase(AddToCartItem.rejected,(state,action)=>{
@@ -204,9 +207,12 @@ const cartSlice= createSlice({
         })
         builder.addCase(GetCartItems.fulfilled,(state,action)=>{
             state.loading=false
+              console.log("getCart.fulfilled - action payload:", action.payload.CartItems);
+            console.log("GetCart.fulfilled - data:", state.items);
             // state.items.push(action.payload)
             state.error = null;
             state.items = action.payload.CartItems;
+
         })
 
         builder.addCase(GetCartItems.rejected,(state,action)=>{
