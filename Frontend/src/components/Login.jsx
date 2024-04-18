@@ -7,6 +7,7 @@ import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 
+
 function Login() {
   const [error, setError] = useState("");
   const [loginUserData, setLoginUserData] = useState({
@@ -87,6 +88,9 @@ function Login() {
             onChange={setUserData}
             className="border border-gray-400 rounded-lg px-4 py-2 mb-4 w-full"
           />
+      
+
+          
           <button
             onClick={handleLogin}
             className="bg-red-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded w-full"
@@ -94,10 +98,14 @@ function Login() {
             Login here
           </button>
         </form>
+        
         <div className="flex items-center justify-center my-4">
           <GoogleButton type="dark" onClick={handleGoogleAuth} />
         </div>
         <div className="text-center">
+        <Link to="/reset-password" className="text-red-500 ml-2 hover:text-red-700 mb-1 font-bold">
+  Forgot password?
+</Link>
           <p className="text-md font-semibold mt-2 pt-1 mb-0 text-blue-dark">
             Don't have an account ?
             <Link

@@ -237,29 +237,36 @@ userRouter.post("/request-otp", async (req, res) => {
 
 
 
-// Route for OTP verification
 userRouter.post("/verify-otp", async (req, res) => {
   try {
     const { otp } = req.body;
+    console.log("Received OTP from body:", otp);
+    
+    // Parse otp as an integer
+    const numericOTP = parseInt(otp);
+    console.log("Parsed OTP as integer:", numericOTP);
+    
+    console.log("Current arr:", arr);
 
     // Check if the OTP matches the one stored in memory or database
-    const storedOTP = arr.filter((item) => item === otp);
-    console.log(arr);
-
-    if (storedOTP === -1) {
-      return res.status(400).send({ error: "Invalid OTP" });
+    if (!arr.includes(numericOTP)) {
+      console.log("Invalid OTP:", numericOTP);
+      return res.status(400).send({ msg: "Invalid OTP" });
     }
-
+    
+    console.log("Valid OTP:", numericOTP);
+    
     // If OTP is valid, perform necessary actions (e.g., update password)
     // Example: Update the password
     // userData.password = newPassword;
     // await userData.save();
 
     // Clear the stored OTP from memory or database
-    arr.splice(storedOTP, 1);
-    console.log("knjknjn",arr);
+    const index = arr.indexOf(numericOTP);
+    arr.splice(index, 1);
+    console.log("Updated arr:", arr);
 
-    res.status(200).send({ message: "OTP verified successfully" });
+    res.status(200).send({ msg: "OTP verified successfully" });
   } catch (error) {
     console.error("Error verifying OTP:", error);
     res.status(500).send({ error: "Failed to verify OTP" });
@@ -270,6 +277,35 @@ userRouter.post("/verify-otp", async (req, res) => {
 
 
 
-console.log("------",arr)
+
+
+// Route for updating password
+userRouter.patch("/update-password", async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    // Find the user by email
+    const user = await UserModel.findOne({ email });
+
+    // If user not found, return error
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    // Send success response
+    return res.status(200).json({ msg: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    return res.status(500).json({ error: "Failed to update password" });
+  }
+});
+
 
 module.exports = { userRouter };

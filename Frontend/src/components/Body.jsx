@@ -20,7 +20,7 @@ import Banner04Img from "../Image/Banner04Img.png"
 import Banner05Img from "../Image/Banner05Img.png"
 import Banner06Img from "../Image/Banner06Img.png"
 import { Base_URL } from "../Config.js";
-import OtpForPassword from "./OtpForPassword.jsx";
+// import OtpForPassword from "./OtpForPassword.jsx";
 
 
 
@@ -111,7 +111,7 @@ const Body = () => {
           className="w-full max-w-screen-lg h-auto sm:h-[200px] rounded-md"
         />
       </div>
-      <OtpForPassword />
+      {/* <OtpForPassword /> */}
     
     <div className="m-10">
       <div className="flex items-center justify-evenly mt-4 gap bg-slate-300 rounded-lg">

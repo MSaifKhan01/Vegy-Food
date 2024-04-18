@@ -46,6 +46,58 @@ export const SignIn = createAsyncThunk(
   }
 );
 
+
+export const EmailforPasswordOTP= createAsyncThunk("EmailforPasswordOTP", async (email,{rejectWithValue})=>{
+  try {
+    const response = await fetch(`${Base_URL}/request-otp`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+})
+
+
+export const OTPVerify= createAsyncThunk("OTPVerify",async(otp,{rejectWithValue})=>{
+  try {
+    const response = await fetch(`${Base_URL}/verify-otp`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ otp }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+})
+
+
+export const ResetPassword= createAsyncThunk("ResetPassword",async(data,{rejectWithValue})=>{
+  try {
+    const response = await fetch(`${Base_URL}/update-password`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: data.emailForPasswordUpdate, newPassword:data.newPassword}),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+})
+
 const UserDetailSlice = createSlice({
   name: "UserDetail",
   initialState: {
@@ -80,6 +132,60 @@ const UserDetailSlice = createSlice({
             state.loading=false
             state.error=action.error.message
           })
+
+
+
+
+
+
+
+
+          builder.addCase(EmailforPasswordOTP.pending,(state)=>{
+            state.loading=true;
+            state.error=null
+          })
+          builder.addCase(EmailforPasswordOTP.fulfilled,(state)=>{
+            state.loading=false
+          })
+          builder.addCase(EmailforPasswordOTP.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+          })
+
+
+
+
+          
+
+          builder.addCase(OTPVerify.pending,(state)=>{
+            state.loading=true;
+            state.error=null
+          })
+          builder.addCase(OTPVerify.fulfilled,(state)=>{
+            state.loading=false
+          })
+          builder.addCase(OTPVerify.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+          })
+
+
+          
+
+          builder.addCase(ResetPassword.pending,(state)=>{
+            state.loading=true;
+            state.error=null
+          })
+          builder.addCase(ResetPassword.fulfilled,(state)=>{
+            state.loading=false
+          })
+          builder.addCase(ResetPassword.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.error.message
+          })
+
+
+
 
 
   }

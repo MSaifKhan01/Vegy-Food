@@ -1,6 +1,9 @@
 
 import {createBrowserRouter,Outlet,RouterProvider} from "react-router-dom"
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {lazy,Suspense, useState} from "react"
 import  ReactDOM  from "react-dom/client"
 import Error from "./components/Error"
@@ -22,6 +25,7 @@ import Cart from "./components/Cart.jsx"
 import Dashboard from "./components/DashboardGetOrder.jsx"
 import Login from "./components/Login"
 import Signup from "./components/SignUp.jsx"
+import OtpForPassword from "./components/OtpForPassword.jsx";
 // import Order from "./components/Order.jsx"
 
 
@@ -44,6 +48,8 @@ const AppLayout=()=>{
         <Outlet />
         <Footer />
         </UserContext.Provider>
+
+        <ToastContainer/>
      
         </Provider>
     )
@@ -104,7 +110,11 @@ const AppRouter= createBrowserRouter([
             {
                 path:"/Signup",
                 element:<Signup />
-            }
+            },
+            {
+                path:"/reset-password",
+                element:<OtpForPassword />
+            },
        
         ]
     }
