@@ -137,6 +137,7 @@ userRouter.get(
         const token = jwt.sign({ userID: existingUser._id,role:existingUser.role }, process.env.tokenSecretSign, { expiresIn: "24h" });
         console.log("--------------------user Updated------------------")
         res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ existingUser, token }))}`);
+        // res.redirect(`https://vegy-food.vercel.app/?userData=${encodeURIComponent(JSON.stringify({ existingUser, token }))}`);
       } else {
         // Create a new user with encrypted access token as password
         const encryptedToken = bcrypt.hashSync(userData.accessToken, 10); // Encrypt the access token
@@ -157,6 +158,7 @@ userRouter.get(
         console.log("--------------------new user added------------------")
 
         res.redirect(`http://localhost:1234/?userData=${encodeURIComponent(JSON.stringify({ user: newUserFromDB, token }))}`);
+        // res.redirect(`https://vegy-food.vercel.app/?userData=${encodeURIComponent(JSON.stringify({ user: newUserFromDB, token }))}`);
       }
     } catch (error) {
       console.error("Error during Google OAuth callback:", error);

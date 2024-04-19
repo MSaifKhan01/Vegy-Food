@@ -67,6 +67,7 @@ export const NavComponent = () => {
     // setIsLoggedin(false);
     sessionStorage.clear()
     window.location.href = "http://localhost:1234/";
+    // window.location.href = "https://vegy-food.vercel.app/";
     // navigate('/');
     console.log("hkk out");
   };
