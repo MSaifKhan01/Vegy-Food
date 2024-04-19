@@ -182,13 +182,22 @@ const cartSlice= createSlice({
             const { data } = action.payload;
             console.log("hjvbjbhb",state.items)
         
-            if (
-                !state.items  ||
-                !state.items.some(item => item.id === data.id) ||
-                !state.items.some(item => item.Product && item.Product.id === data.id)
-            ) {
-                state.items.push(data);
-            }
+            // if (
+            //     !state.items  ||
+            //     !state.items.some(item => item.id === data.id) ||
+            //     !state.items.some(item => item.Product && item.Product.id === data.id)
+            // ) {
+            //     state.items.push(data);
+            // }
+
+             // Check if the item already exists in the cart
+    const existingItem = state.items.find(item => item.id === data.id || (item.Product && item.Product.id === data.id));
+    if (!existingItem) {
+        state.items.push(data);
+    } else {
+        // Handle the case when the item already exists (optional)
+        console.log("Item already exists in the cart:", existingItem);
+    }
             
         });
         

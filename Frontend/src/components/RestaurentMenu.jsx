@@ -12,6 +12,10 @@ import { Star } from "lucide-react";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const ITEMS_PER_PAGE = 8;
 
 const RestaurentMenu = () => {
@@ -36,16 +40,21 @@ const RestaurentMenu = () => {
     setFilteredItems(allItemCardsItem);
   }, [allItemCardsItem]);
 
-  const handleAddItem = (item) => {
-    // dispatch(addItem(item));
+  const handleAddItem =async (item) => {
+  
 
-    dispatch(AddToCartItem(item));
+    const action=await dispatch(AddToCartItem(item));
+    // console.log(action)
+    if(action.meta.requestStatus==="fulfilled" && action.payload.result.msg==="Product Added to Cart Successfully"){
+      toast.success( action.payload.result.msg);
+    }else{
+      toast.error( action.payload.result.msg);
+    }
+    
     // console.log("from cart for checking Id:", item);
   };
 
-  // const handleClearCart = () => {
-  //   // dispatch(clearCart());
-  // };
+
   console.log("simple from", sortOption);
 
   if (!isOnline) {

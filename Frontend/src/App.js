@@ -47,9 +47,10 @@ const AppLayout=()=>{
         <Header />
         <Outlet />
         <Footer />
+        <ToastContainer/>
         </UserContext.Provider>
 
-        <ToastContainer/>
+        
      
         </Provider>
     )

@@ -7,6 +7,9 @@ import EmptyCart from "./EmptyCart.jsx";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const cartItems = useSelector((store) => store.cart.items);
@@ -33,6 +36,7 @@ const Cart = () => {
   const handleClearCart = () => {
   
     dispatch(ClearCart());
+    toast.success('Cart cleared successfully');
   };
 
   let isOnline = useOnline();
@@ -59,12 +63,12 @@ const Cart = () => {
        <div className="flex m-2 gap-4">
          <div className="w-3/5">
       {cartItems.map((item, index) => (
-        // console.log("-----",item,item.Quantity)
+       
    
         <CartItem key={index} Item={item}  Quantity={item.Quantity}/>
       ))}
 
-  {/* <CartItem /> */}
+
     </div>
     <CheckoutCart  />
     </div>

@@ -20,13 +20,6 @@ const OtpForPassword = () => {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const res = await fetch(`${Base_URL}/request-otp`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ email }),
-      // });
 
       const action = await dispatch(EmailforPasswordOTP(email));
       // console.log("hjjj","-----",action)
@@ -48,13 +41,7 @@ const OtpForPassword = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const res = await fetch(`${Base_URL}/verify-otp`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ otp }),
-      // });
+
       const action = await dispatch(OTPVerify(otp));
       console.log(action)
 
@@ -78,13 +65,7 @@ const OtpForPassword = () => {
       const data={
         emailForPasswordUpdate, newPassword
       }
-      // const res = await fetch(`${Base_URL}/update-password`, {
-      //   method: "PATCH",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ email: emailForPasswordUpdate, newPassword}),
-      // });
+  
 
       const action = await dispatch(ResetPassword(data))
 
@@ -126,7 +107,7 @@ const OtpForPassword = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+              className="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300"
             >
               Submit
             </button>
@@ -140,7 +121,7 @@ const OtpForPassword = () => {
                     key={index}
                     type="text"
                     maxLength={1}
-                    className="w-8 h-8 text-center border rounded-md focus:outline-none focus:border-blue-500"
+                    className="w-8 h-8 text-center border rounded-md focus:outline-none focus:border-red-500"
                     value={otp[index] || ''}
                     onChange={(e) => {
                       const newOtp = [...otp];
@@ -154,7 +135,7 @@ const OtpForPassword = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+              className="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300"
             >
               Verify OTP
             </button>
@@ -168,14 +149,14 @@ const OtpForPassword = () => {
                 id="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-red-500"
                 placeholder="Enter your new password"
                 required
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+              className="w-full bg-red-500 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-300"
             >
               Set Password
             </button>

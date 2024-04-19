@@ -1,15 +1,27 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {  updateOrderStatus } from '../utills/OrderSlice';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const UserOrders = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.Order.Order);
   // console.log("------", orders);
 
-  const handleCancelOrder = (orderId) => {
+  const handleCancelOrder =async (orderId) => {
     let newStatus="Canceled"
-    dispatch(updateOrderStatus({ orderId, newStatus }));
+    let action=await dispatch(updateOrderStatus({ orderId, newStatus }));
+    console.log(action)
+
+    // toast.success( action.payload.result.msg);
+
+    if(action.meta.requestStatus==="fulfilled" && action.payload.newStatus
+    ==="Canceled"){
+      toast.success("Order Canceled successfully!");
+      window.location.href = "http://localhost:1234/order";
+    }else{
+      toast.error( ` Order not Canceled`);
+    }
   };
 
  
