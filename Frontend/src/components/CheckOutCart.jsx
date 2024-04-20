@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MakeOrder } from "../utills/OrderSlice";
+import { Base_URL } from "../Config";
 
 
 const CheckoutCart = () => {
@@ -33,6 +34,145 @@ const CheckoutCart = () => {
       dispatch(MakeOrder(data))
 
   };
+
+  // const MakePaymentWithRozor = async () => {
+  //   const userDataJSON = sessionStorage.getItem("User");
+  //   const userData = JSON.parse(userDataJSON);
+  //   const token = sessionStorage.getItem("token");
+  
+  //   const requestOptions = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify({ 
+  //       amount: totalBill,
+  //       cartItems ,
+  //       userData
+  //     }) 
+  //   };
+  
+  //   try {
+  //     const response = await fetch(`${Base_URL}/order/checkout`, requestOptions);
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     const { order } = await response.json();
+  //     console.log("----oredrrozor",order)
+  
+  //     const options = {
+  //       key: 'rzp_test_9EpNl8SflNpqKy', // Your Razorpay API key
+  //       amount: order.amount,
+  //       currency: "INR",
+  //       name: "FORK & JSA",
+  //       description: "FORK & JSA of RazorPay",
+  //       image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+  //       order_id: order.id,
+  //       callback_url: `${Base_URL}/order/paymentverification`,
+  //       prefill: {
+  //           name: userData.username, // Assuming 'name' is available in 'userData'
+  //           email: userData.email, // Assuming 'email' is available in 'userData'
+           
+  //       },
+  //       notes: {
+  //           address: "Razorpay Corporate Office",
+  //           totalBill,
+  //           cartItems,
+  //           userData
+  //       },
+  //       theme: {
+  //           color: "#121212"
+  //       }
+  //     };
+  //     const razor = new window.Razorpay(options);
+  //     razor.open();
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     // Handle error
+  //   }
+  // };
+  
+
+  const MakePaymentWithRozor = async () => {
+    const userDataJSON = sessionStorage.getItem("User");
+    const userData = JSON.parse(userDataJSON);
+    const token = sessionStorage.getItem("token");
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ 
+        amount: totalBill,
+        cartItems,
+        userData
+      }) 
+    };
+  
+    try {
+      const response = await fetch(`${Base_URL}/order/checkout`, requestOptions);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const { order } = await response.json();
+      console.log("----oredrrozor",order)
+  
+      const options = {
+        key: 'rzp_test_9EpNl8SflNpqKy', // Your Razorpay API key
+        amount: order.amount,
+        currency: "INR",
+        name: "FORK & JSA",
+        description: "FORK & JSA of RazorPay",
+        image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+        order_id: order.id,
+        callback_url: `${Base_URL}/paymentverification`,
+        prefill: {
+          name: userData.username, 
+          email: userData.email, 
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+          totalBill,
+          cartItems,
+          userData
+        },
+        theme: {
+          color: "#121212"
+        }
+      };
+   // Include the authorization token in the headers of the callback request
+   const callbackOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      totalBill,
+      cartItems,
+      userData,
+    }),
+  };
+
+  const razor = new window.Razorpay(options);
+  razor.on("payment.success", function (response) {
+    // Payment success logic
+    // Send data to callback URL
+    fetch(`${Base_URL}/paymentverification`, callbackOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  });
+
+  razor.open();
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error
+    }
+  };
+  
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-2/5">
@@ -75,6 +215,15 @@ const CheckoutCart = () => {
         className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
       >
         Checkout
+      </button>
+
+      <button
+        onClick={() => {
+          MakePaymentWithRozor();
+        }}
+        className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+      >
+        Make Payment With UPI
       </button>
     </div>
   );

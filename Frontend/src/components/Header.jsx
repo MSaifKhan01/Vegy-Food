@@ -48,7 +48,8 @@ export const NavComponent = () => {
 
   const userData = sessionStorage.getItem("User");
   // console.log("userData",userData)
-  const parsedUserData = JSON.parse(userData);
+  // const parsedUserData = JSON.parse(userData);
+  const parsedUserData = userData !== undefined ? JSON.parse(userData) : null;
   
   
 

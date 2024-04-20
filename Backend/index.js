@@ -10,6 +10,7 @@ const { DB } = require("./DB/db");
 const  CartRouter  = require("./Routes/CartRoutes");
 const { Auth } = require("./Middleware/auth");
 const OrderRouter = require("./Routes/OrderRoute");
+// const { PaymentVerifyRouter } = require("./Helper/RozorPay");
 const app = express();
 
 // Enable CORS for all origins 
@@ -30,7 +31,7 @@ app.use("/order", Auth, OrderRouter);
 // app.use("/order",  OrderRouter);
 
 app.use("/",RestraurentRoute)
-
+// app.use("/",PaymentVerifyRouter)
 // Start server
 const port = 4000;
 app.listen(port, async() => {

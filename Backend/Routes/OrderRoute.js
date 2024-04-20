@@ -186,37 +186,6 @@ function orderConfirmationMail(data) {
 
 
 
-// // Route to handle Stripe webhook events
-// OrderRouter.post("/webhook", async (req, res) => {
-//   try {
-//     const event = req.body;
-
-//     // Handle payment success event
-//     if (event.type === "checkout.session.completed") {
-//       const session = event.data.object;
-
-//       // Retrieve order details from the session
-//       const orderID = session.metadata.order_id;
-//       const userID = session.metadata.user_id;
-
-//       // Update order status in the database
-//       await orderModel.findByIdAndUpdate(orderID, { payment: true });
-
-//       // Deleting cartItems after order confirm
-//       await CartModel.deleteMany({ UserID: userID });
-
-//       // Sending order confirmation email
-//       const order = await orderModel.findById(orderID);
-//       orderConfirmationMail(order);
-
-//       res.status(200).json({ message: "Payment successful" });
-//     }
-//   } catch (error) {
-//     console.error("Webhook Error:", error);
-//     res.status(500).json({ error: "Webhook processing error" });
-//   }
-// });
-
 
 OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
   const userID = req.userID;
@@ -238,8 +207,8 @@ OrderRouter.get("/get-order", RoleBase(["user", "admin"]), async (req, res) => {
 OrderRouter.patch('/update-status/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
   const newStatus = req.body.status;
-  console.log("-----", newStatus, "-----");
-  console.log("-----", orderId, "-----");
+  // console.log("-----", newStatus, "-----");
+  // console.log("-----", orderId, "-----");
 
   try {
     let order = await orderModel.findById(orderId).populate("UserID");
@@ -308,6 +277,107 @@ OrderRouter.patch('/update-status/:orderId', async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 });
+
+
+
+
+
+// const crypto = require("crypto");
+// const { instance } = require("../Helper/RozorPay");
+
+
+
+// // OrderRouter.post("/checkout",async (req, res) => {
+
+// //   console.log("from checkout----:",req.body)
+// //   const options = {
+// //     amount: Number(req.body.amount * 100),
+// //     currency: "INR",
+// //   };
+// //   const order = await instance.orders.create(options);
+// //   console.log("-----",order)
+
+// //   res.status(200).json({
+// //     success: true,
+// //     order,
+// //   });
+// // });
+
+// OrderRouter.post("/checkout", async (req, res) => {
+//   try {
+//     console.log("from checkout----:", req.body);
+//     const options = {
+//       amount : Math.round(Number(req.body.amount) * 100),
+//       currency: "INR",
+//     };
+//     const order = await instance.orders.create(options);
+//     console.log("-----", order);
+
+//     res.status(200).json({
+//       success: true,
+//       order,
+//       cartItems: req.body.cartItems,
+//       userData: req.body.userData,
+//       totalBill: req.body.totalBill
+//     });
+
+
+//   } catch (error) {
+//     console.error("Error creating order:", error);
+//     res.status(500).json({ success: false, error: "Error creating order" });
+//   }
+// });
+
+
+// OrderRouter.post("/paymentverification", async (req, res) => {
+//   console.log("from verification :---",req.body)
+//   // const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+//   //   req.body;
+
+//   // const body = razorpay_order_id + "|" + razorpay_payment_id;
+
+//   // const expectedSignature = crypto
+//   //   .createHmac("sha256", process.env.RAZORPAY_APT_SECRET)
+//   //   .update(body.toString())
+//   //   .digest("hex");
+
+//   // const isAuthentic = expectedSignature === razorpay_signature;
+
+//   // if (isAuthentic) {
+//   //   // Database comes here
+
+//   //   // await Payment.create({
+//   //   //   razorpay_order_id,
+//   //   //   razorpay_payment_id,
+//   //   //   razorpay_signature,
+//   //   // });
+
+
+//   //   let orderDataObject = {
+//   //     UserID: userID,
+//   //     CartItems: data.cartItems,
+//   //     total: data.totalBill.toFixed(2),
+//   //     payment: true,
+//   //   };
+  
+//   //   // Create a new order instance
+//   //   const newOrder = new orderModel(orderDataObject);
+//   //   await newOrder.save();
+  
+  
+  
+//   //   // deleting cartItems after order confirm
+//   //   await CartModel.deleteMany({ UserID: userID });
+
+//   //   res.redirect(
+//   //     `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
+//   //   );
+//   // } else {
+//   //   res.status(400).json({
+//   //     success: false,
+//   //   });
+//   // }
+// });
 
 
 
