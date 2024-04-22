@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SignUp } from "../utills/UserSlice";
 import { GoogleButton } from "react-google-button";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 const Signup = () => {
   const [signUpData, setSignUpData] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getSignUpData = (e) => {
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
@@ -23,6 +25,7 @@ const Signup = () => {
     
     // Clear input fields after successful signup
     setSignUpData({});
+     navigate("/login");
   };
 
   const handleGoogleAuth = () => {
