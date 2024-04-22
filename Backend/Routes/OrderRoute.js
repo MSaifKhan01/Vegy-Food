@@ -89,7 +89,7 @@ OrderRouter.post("/Check-out", async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     // success_url: "http://localhost:1234/",
-    // success_url: "https://vegy-food.vercel.app/",
+    success_url: "https://vegy-food.vercel.app/",
     cancel_url: "https://example.com/cancel",
   });
   console.log("----------------",session,"---------------")
