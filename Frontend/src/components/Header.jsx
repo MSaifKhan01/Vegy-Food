@@ -124,14 +124,26 @@ export const NavComponent = () => {
 {navLinks.map((link, index) => (
   <li key={index} className="p-2.5">
     {link.path === "/cart" ? (
-      <Link to={link.path}>
-        <button className="nav--btn">
-          {link.title}{" "}
-          <span className="text-orange font-bold pl-1">
-            {cartItem?.length ?? 0}
-          </span>
-        </button>
-      </Link>
+      // <Link to={link.path}>
+      //   <button className="nav--btn">
+      //     {link.title}{" "}
+      //     <span className="text-orange font-bold pl-1">
+      //       {cartItem?.length ?? 0}
+      //     </span>
+      //   </button>
+      // </Link>
+
+      <a href={link.path}>
+  <button className="nav--btn">
+    {link.title}{" "}
+    <span className="text-orange font-bold pl-1">
+      {cartItem?.length ?? 0}
+    </span>
+  </button>
+</a>
+
+
+      
     ) : (
       <Link to={link.path}>
         <button className="nav--btn">{link.title}</button>
