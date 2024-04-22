@@ -7,7 +7,7 @@ import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 import Swal from 'sweetalert2';
-import { useContext } from "react";
+
 import UserContext from "../utills/UserContext";
 
 // import { toast} from "react-toastify";
@@ -31,23 +31,14 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
     try {
       const action = await dispatch(SignIn(loginUserData));
       if (action.payload) {
-        console.log("Login Successful:", action.payload);
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("User", JSON.stringify(action.payload.isUser));
         setUser({ name: action.payload.isUser.username, email: action.payload.isUser.email }); // Set user data in context
-        // Swal.fire({
-        //   title: 'Success!',
-        //   text: action.payload.msg,
-        //   icon: 'success',
-        //   confirmButtonText: 'OK'
-        // });
         setLoginUserData({ email: "", password: "" }); // Reset input fields
-        // navigate("/");
-        // window.location.href = "http://localhost:1234"; // Redirect to home page
         window.location.href = "https://vegy-food.vercel.app/";
       } else {
         Swal.fire({
@@ -61,6 +52,7 @@ function Login() {
       setError(error.message);
     }
   };
+  
   
 
   const handleGoogleAuth = () => {
