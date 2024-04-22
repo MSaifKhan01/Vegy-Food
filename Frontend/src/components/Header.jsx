@@ -22,10 +22,10 @@ const navLinks = [
     title: "Instamart",
     path: "/instamart",
   },
-  // {
-  //   title: "Cart",
-  //   path: "/cart",
-  // },
+  {
+    title: "Cart",
+    path: "/cart",
+  },
   {
     title: "Contact",
     path: "/about/contact",
