@@ -7,6 +7,9 @@ import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 import Swal from 'sweetalert2';
+import { useContext } from "react";
+import UserContext from "../utills/UserContext";
+
 // import { toast} from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -17,6 +20,8 @@ function Login() {
     email: "",
     password: "",
   });
+  const { setUser } = useContext(UserContext);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,6 +38,7 @@ function Login() {
         console.log("Login Successful:", action.payload);
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("User", JSON.stringify(action.payload.isUser));
+        setUser({ name: action.payload.isUser.username, email: action.payload.isUser.email }); // Set user data in context
         // Swal.fire({
         //   title: 'Success!',
         //   text: action.payload.msg,
