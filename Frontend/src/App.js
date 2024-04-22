@@ -37,8 +37,8 @@ let Inatamart= lazy(()=>{
 
 const AppLayout=()=>{
     const [user,setUser]=useState({
-        name:"",
-        email:"",
+        name:"Mohd Saif khan",
+        email:"saif0715@gmail.com",
         // RestroData
     })
     return(

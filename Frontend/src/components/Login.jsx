@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SignIn } from "../utills/UserSlice";
 import { GoogleButton } from "react-google-button";
@@ -7,9 +7,6 @@ import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
 import Swal from 'sweetalert2';
-
-import UserContext from "../utills/UserContext";
-
 // import { toast} from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -20,8 +17,6 @@ function Login() {
     email: "",
     password: "",
   });
-  const { setUser } = useContext(UserContext);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,14 +26,22 @@ function Login() {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     try {
       const action = await dispatch(SignIn(loginUserData));
       if (action.payload) {
+        console.log("Login Successful:", action.payload);
         sessionStorage.setItem("token", action.payload.token);
         sessionStorage.setItem("User", JSON.stringify(action.payload.isUser));
-        setUser({ name: action.payload.isUser.username, email: action.payload.isUser.email }); // Set user data in context
+        // Swal.fire({
+        //   title: 'Success!',
+        //   text: action.payload.msg,
+        //   icon: 'success',
+        //   confirmButtonText: 'OK'
+        // });
         setLoginUserData({ email: "", password: "" }); // Reset input fields
+        // navigate("/");
+        // window.location.href = "http://localhost:1234"; // Redirect to home page
         window.location.href = "https://vegy-food.vercel.app/";
       } else {
         Swal.fire({
@@ -52,7 +55,6 @@ function Login() {
       setError(error.message);
     }
   };
-  
   
 
   const handleGoogleAuth = () => {
