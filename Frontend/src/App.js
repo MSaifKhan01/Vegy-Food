@@ -19,6 +19,9 @@ import Shimmer from "./components/Shimmer.jsx"
 import UserContext from "./utills/UserContext.js"
 // import { RestroData } from "./Config.js"
 
+import { SignIn } from "./utills/UserSlice.js";
+import { useDispatch } from "react-redux";
+
 import {Provider} from "react-redux"
 import store from "./utills/store.js"
 import Cart from "./components/Cart.jsx"
@@ -35,12 +38,21 @@ let Inatamart= lazy(()=>{
 })
 
 
-const AppLayout=()=>{
+const AppLayout= async()=>{
     const [user,setUser]=useState({
-        name:"Mohd Saif khan",
-        email:"saif0715@gmail.com",
+        name:"",
+        email:"",
+        // name:"Mohd Saif khan",
+        // email:"saif0715@gmail.com",
         // RestroData
     })
+    const dispatch = useDispatch();
+    const action = await dispatch(SignIn(loginUserData));
+    if(action.payload){
+        setUser({ name: action.payload.isUser.username, email: action.payload.isUser.email }); // Set user data in context
+
+    }
+  
     return(
         <Provider store={store}>
         <UserContext.Provider value={{user,setUser,}}>
