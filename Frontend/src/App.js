@@ -96,6 +96,7 @@ const AppRouter= createBrowserRouter([
                 element:<Cart />
             },
             
+            
             {
                 path:"/about/contact",
                 element:<Contact />
