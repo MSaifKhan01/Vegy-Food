@@ -22,9 +22,13 @@ const navLinks = [
     title: "Instamart",
     path: "/instamart",
   },
+  // {
+  //   title: "Cart",
+  //   path: "/cart",
+  // },
   {
-    title: "Cart",
-    path: "/cart",
+    title: "Orders",
+    path: "/order",
   },
   {
     title: "Contact",
@@ -104,15 +108,15 @@ export const NavComponent = () => {
             !menuActive && "hidden"
           }  ${menuActive && "flex flex-col flex-start "}`}
         >
-          {/* {navLinks.map((link, index) => (
+          {navLinks.map((link, index) => (
             <li key={index} className="p-2.5">
               <Link to={link.path}>
                 <button className="nav--btn">{link.title}</button>
               </Link>
             </li>
-          ))} */}
+          ))}
 
-{navLinks.map((link, index) => (
+{/* {navLinks.map((link, index) => (
   <li key={index} className="p-2.5">
     {link.path === "/cart" ? (
       <Link to={link.path}>
@@ -129,15 +133,16 @@ export const NavComponent = () => {
       </Link>
     )}
   </li>
-))}
-          {/* <li className="p-2.5">
-          <Link to="/cart">
+))} */}
+          <li className="p-2.5">
+          <a href="/cart">
+
               <button className="nav--btn">
                 Cart <span className="text-orange font-bold pl-1">{cartItem?.length ?? 0}</span>{" "}
 
               </button>
-            </Link>
-          </li> */}
+              </a>
+          </li>
 
           <li className="p-2.5">
            <Link to="/login">
