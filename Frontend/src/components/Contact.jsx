@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import { Base_URL } from "../Config";
 import useOnline from "../Hooks/useOnline.jsx";
 import UserOffline from "./UserOffline.jsx";
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -20,8 +23,10 @@ const Contact = () => {
     e.preventDefault();
     try {
       await axios.post(`${Base_URL}/Mail`, formData);
-      alert("Message sent successfully!");
+      // alert("Message sent successfully!");
+     
       setFormData({ username: "", email: "", message: "" });
+      toast.success("Message sent successfully!");
     } catch (error) {
       setError("Failed to send message. Please try again later.");
     }
