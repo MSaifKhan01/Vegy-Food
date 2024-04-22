@@ -22,10 +22,10 @@ const navLinks = [
     title: "Instamart",
     path: "/instamart",
   },
-  // {
-  //   title: "Cart",
-  //   path: "/cart",
-  // },
+  {
+    title: "Cart",
+    path: "/cart",
+  },
   
   {
     title: "Orders",
@@ -83,9 +83,9 @@ export const NavComponent = () => {
     console.log("hkk in");
   };
 
-  const handleCartRoutte=()=>{
-    window.location.href = "https://vegy-food.vercel.app/cart";
-  }
+  // const handleCartRoutte=()=>{
+  //   window.location.href = "https://vegy-food.vercel.app/cart";
+  // }
 
   return (
     <div className="flex items-center justify-between ">
@@ -113,15 +113,15 @@ export const NavComponent = () => {
             !menuActive && "hidden"
           }  ${menuActive && "flex flex-col flex-start "}`}
         >
-          {navLinks.map((link, index) => (
+          {/* {navLinks.map((link, index) => (
             <li key={index} className="p-2.5">
               <Link to={link.path}>
                 <button className="nav--btn">{link.title}</button>
               </Link>
             </li>
-          ))}
+          ))} */}
 
-{/* {navLinks.map((link, index) => (
+{navLinks.map((link, index) => (
   <li key={index} className="p-2.5">
     {link.path === "/cart" ? (
       <Link to={link.path}>
@@ -138,8 +138,8 @@ export const NavComponent = () => {
       </Link>
     )}
   </li>
-))} */}
-          <li className="p-2.5">
+))}
+          {/* <li className="p-2.5">
           
 
               <button className="nav--btn" onClick={handleCartRoutte}>
@@ -147,7 +147,7 @@ export const NavComponent = () => {
 
               </button>
              
-          </li>
+          </li> */}
 
           <li className="p-2.5">
            <Link to="/login">
