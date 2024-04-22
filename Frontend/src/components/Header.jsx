@@ -26,6 +26,7 @@ const navLinks = [
   //   title: "Cart",
   //   path: "/cart",
   // },
+  
   {
     title: "Orders",
     path: "/order",
@@ -82,6 +83,10 @@ export const NavComponent = () => {
     console.log("hkk in");
   };
 
+  const handleCartRoutte=()=>{
+    window.location.href = "https://vegy-food.vercel.app/cart";
+  }
+
   return (
     <div className="flex items-center justify-between ">
       {parsedUserData ? (
@@ -135,13 +140,13 @@ export const NavComponent = () => {
   </li>
 ))} */}
           <li className="p-2.5">
-          <a href="/cart">
+          
 
-              <button className="nav--btn">
+              <button className="nav--btn" onClick={handleCartRoutte}>
                 Cart <span className="text-orange font-bold pl-1">{cartItem?.length ?? 0}</span>{" "}
 
               </button>
-              </a>
+             
           </li>
 
           <li className="p-2.5">
