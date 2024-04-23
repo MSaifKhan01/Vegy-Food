@@ -41,8 +41,8 @@ function Login() {
         // });
         setLoginUserData({ email: "", password: "" }); // Reset input fields
         // navigate("/");
-        window.location.href = "http://localhost:1234"; // Redirect to home page
-        // window.location.href = "https://vegy-food.vercel.app/";
+        // window.location.href = "http://localhost:1234"; // Redirect to home page
+        window.location.href = "https://vegy-food.vercel.app/";
       } else {
         Swal.fire({
           title: 'Error!',
