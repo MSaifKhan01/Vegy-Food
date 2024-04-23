@@ -1,5 +1,3 @@
-
-
 🚀 **Embark on a Gastronomic Adventure with "Fork & JSA"!** 🍲🔥
 
 Dive into a world of culinary delight with "Fork & JSA" – a unique platform that combines innovation with gastronomy, offering a seamless experience for food enthusiasts! 💻✨
@@ -11,6 +9,7 @@ Dive into a world of culinary delight with "Fork & JSA" – a unique platform th
 - **Authentication & Authorization**: Users can log in with email and password, or sign up if they don't have an account. Additionally, Google OAuth integration enables easy login/signup with Google accounts.
 - **Node Mailer Integration**: Sending email notifications for order updates to users and admins.
 - **Search Functionality & Sorting**: Implemented search functionality and sorting for various categories to enhance user experience.
+- **Pagination**: Implemented pagination for better navigation and improved performance in handling large datasets.
 - **Forget Password & OTP Confirmation**: Users can reset their password via email with OTP confirmation.
 - **Admin Panel**: Admins can update the status of orders and manage user access with role-based authentication.
 - **Offline Component & URL Handling**: Displays a component for offline mode and handles URL mismatches gracefully.
@@ -31,8 +30,3 @@ Explore the application and share your feedback to make "Fork & JSA" even better
 - **Live Site**: [Explore Fork & JSA](https://vegy-food.vercel.app/)
 - **GitHub Repository**: [Check out the code](https://github.com/MSaifKhan01/Vegy-Food)
 
-
-
-###### 4000003560000008 indian Based card no
-
-####### https://docs.stripe.com/testing#international-cards
