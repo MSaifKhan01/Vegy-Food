@@ -18,8 +18,8 @@ const UserOrders = () => {
     if(action.meta.requestStatus==="fulfilled" && action.payload.newStatus
     ==="Canceled"){
       toast.success("Order Canceled successfully!");
-      // window.location.href = "http://localhost:1234/order";
-      window.location.href = "https://vegy-food.vercel.app/order";
+      window.location.href = "http://localhost:1234/order";
+      // window.location.href = "https://vegy-food.vercel.app/order";
     }else{
       toast.error( ` Order not Canceled`);
     }
