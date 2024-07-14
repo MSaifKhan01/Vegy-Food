@@ -48,7 +48,7 @@ export const Title = () => {
 export const NavComponent = () => {
 
   const [menuActive, setMenuActive] = useState(false);
-  const cartItem = useSelector((store) => store.cart.items);
+  let cartItem = useSelector((store) => store.cart.items);
   const Users = useSelector((store) => store.User.user);
 
   const userData = sessionStorage.getItem("User");
