@@ -87,6 +87,10 @@ export const NavComponent = () => {
   //   window.location.href = "https://vegy-food.vercel.app/cart";
   // }
 
+  useEffect(()=>{
+     cartItem = useSelector((store) => store.cart.items);
+  },[])
+
   return (
     <div className="flex items-center justify-between ">
       {parsedUserData ? (
