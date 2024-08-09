@@ -24,7 +24,8 @@ userRouter.post("/SignUp", async (req, res) => {
     // Hash the password
     bcrypt.hash(password, 5, async (err, hash) => {
       if (err) {
-        throw new Error("Error hashing password");
+        return res.status(401).send({msg:"Error hashing password"})
+        // throw new Error("Error hashing password");
       }
       
       // Create a new user with the hashed password
@@ -62,10 +63,10 @@ userRouter.post("/login",async(req,res)=>{
     bcrypt.compare(password,isUser.password,((err,result)=>{
       if(result){
 
-        console.log("-----user--",isUser,isUser.role,"-----------")
+        // console.log("-----user--",isUser,isUser.role,"-----------")
 
         const token=jwt.sign({userID:isUser._id,role:isUser.role},process.env.tokenSecretSign,{expiresIn:"24h"})
-        console.log({msg:"login succesful",token,isUser})
+        // console.log({msg:"login succesful",token,isUser})
 
         res.status(200).send({msg:"login succesful",token,isUser});
 
@@ -161,7 +162,7 @@ userRouter.get(
         res.redirect(`https://vegy-food.vercel.app/?userData=${encodeURIComponent(JSON.stringify({ user: newUserFromDB, token }))}`);
       }
     } catch (error) {
-      console.error("Error during Google OAuth callback:", error);
+      // console.error("Error during Google OAuth callback:", error);
       res.status(500).send({ msg: "An error occurred during Google OAuth callback" });
     }
   }
@@ -183,14 +184,15 @@ var arr=[]
 userRouter.post("/request-otp", async (req, res) => {
   const { email } = req.body;
 
-  console.log("jghgbh2")
+  // console.log("jghgbh2")
 
   try {
     // // Generate OTP
     // const otp = generateOTP();
 
     // Save OTP to user document in the database
-    let UserData = await UserModel.findOneAndUpdate({ email });
+    let UserData = await UserModel.findOne({ email });
+    // console.log("from otp--",email,UserData)
 
  
 
@@ -232,7 +234,7 @@ userRouter.post("/request-otp", async (req, res) => {
     res.status(200).send({ email, otp });
 
   } catch (error) {
-    console.error("Error requesting OTP:", error);
+    // console.error("Error requesting OTP:", error);
     res.status(500).send({ msg: "Failed to request OTP" });
   }
 });
@@ -242,35 +244,32 @@ userRouter.post("/request-otp", async (req, res) => {
 userRouter.post("/verify-otp", async (req, res) => {
   try {
     const { otp } = req.body;
-    console.log("Received OTP from body:", otp);
+    // console.log("Received OTP from body:", otp);
     
     // Parse otp as an integer
     const numericOTP = parseInt(otp);
-    console.log("Parsed OTP as integer:", numericOTP);
+    // console.log("Parsed OTP as integer:", numericOTP);
     
-    console.log("Current arr:", arr);
+    // console.log("Current arr:", arr);
 
     // Check if the OTP matches the one stored in memory or database
     if (!arr.includes(numericOTP)) {
-      console.log("Invalid OTP:", numericOTP);
+      // console.log("Invalid OTP:", numericOTP);
       return res.status(400).send({ msg: "Invalid OTP" });
     }
     
-    console.log("Valid OTP:", numericOTP);
+    // console.log("Valid OTP:", numericOTP);
     
-    // If OTP is valid, perform necessary actions (e.g., update password)
-    // Example: Update the password
-    // userData.password = newPassword;
-    // await userData.save();
+    
 
     // Clear the stored OTP from memory or database
     const index = arr.indexOf(numericOTP);
     arr.splice(index, 1);
-    console.log("Updated arr:", arr);
+    // console.log("Updated arr:", arr);
 
     res.status(200).send({ msg: "OTP verified successfully" });
   } catch (error) {
-    console.error("Error verifying OTP:", error);
+    // console.error("Error verifying OTP:", error);
     res.status(500).send({ error: "Failed to verify OTP" });
   }
 });
@@ -280,7 +279,7 @@ userRouter.post("/verify-otp", async (req, res) => {
 
 
 
-
+//----------------- this route having some issue -----------------------//
 // Route for updating password
 userRouter.patch("/update-password", async (req, res) => {
   const { email, newPassword } = req.body;
@@ -288,6 +287,7 @@ userRouter.patch("/update-password", async (req, res) => {
   try {
     // Find the user by email
     const user = await UserModel.findOne({ email });
+    // console.log("update pass",email,user)
 
     // If user not found, return error
     if (!user) {
@@ -304,7 +304,7 @@ userRouter.patch("/update-password", async (req, res) => {
     // Send success response
     return res.status(200).json({ msg: "Password updated successfully" });
   } catch (error) {
-    console.error("Error updating password:", error);
+    // console.error("Error updating password:", error);
     return res.status(500).json({ error: "Failed to update password" });
   }
 });

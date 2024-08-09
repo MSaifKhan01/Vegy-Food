@@ -28,7 +28,7 @@ RestraurentRoute.get("/restaurants", (req, res) => {
             res.json(JSON.parse(data).Restraurent);
         }
     } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         res.status(500).send("Internal Server Error");
     }
 });

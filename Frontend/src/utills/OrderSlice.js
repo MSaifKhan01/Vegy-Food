@@ -26,7 +26,7 @@ export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue
         });
   
         const session = await response.json();
-        console.log(session,"--------")
+        // console.log(session,"--------")
 
       
         
@@ -38,7 +38,7 @@ export const MakeOrder= createAsyncThunk("MakeOrder",async(data,{rejectWithValue
           const result = await stripe.redirectToCheckout({
             sessionId: session.id,
           });
-          console.log(result,"----------")
+          // console.log(result,"----------")
        
   
           if (result.error) {
@@ -72,7 +72,7 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { re
       throw new Error('Failed to fetch orders');
     }
     const result = await response.json();
-    console.log("09-----Tunk--",result)
+    console.log("-----fectorder orderSlice--",result)
     return result;
   } catch (error) {
     return rejectWithValue(error.message);

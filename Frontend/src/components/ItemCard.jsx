@@ -14,9 +14,9 @@ const ItemCard = ({ itemEle }) => {
     const [isFavourite, setIsFavourite] = useState(false);
 
     const markFavourite = (event) => {
-        console.log("iu")
+        // console.log("iu")
         event.preventDefault();
-        console.log(isFavourite)
+        // console.log(isFavourite)
         setIsFavourite(!isFavourite);
        
     };

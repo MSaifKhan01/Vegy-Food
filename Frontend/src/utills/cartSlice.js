@@ -6,7 +6,7 @@ export const AddToCartItem= createAsyncThunk("AddToCart",async(data,{rejectWithV
     // console.log("from fn thunk ",data)
     try {
         let token=sessionStorage.getItem("token")
-        console.log(token)
+        // console.log(token)
         const response= await fetch(`${Base_URL}/Cart/Add-toCart/${data.id}`,{
             method:"POST",
             headers: {
@@ -39,7 +39,7 @@ export const GetCartItems = createAsyncThunk("GetCart", async (_, { rejectWithVa
         });
      
         const result = await response.json();
-        // console.log("from Cart thunk get Items", result);
+        console.log("from Cart thunk get Items", result);
         return result;
     } catch (error) {
         return rejectWithValue(error.message);
@@ -50,7 +50,7 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
     // console.log("from fn thunk ",id)
     try {
         let token=sessionStorage.getItem("token")
-        console.log(token)
+        // console.log(token)
         const response= await fetch(`${Base_URL}/Cart/inc-qty/${id}`,{
             method:"PATCH",
             headers: {
@@ -64,7 +64,7 @@ export const IncreaseItemsQty = createAsyncThunk("IncItemQty",async(id,{rejectWi
         const result= await response.json()
         console.log("from Cart thunk increament Qty :-",result)
         // GetCartItems()
-        console.log("----",id)
+        // console.log("----",id)
 
         return {id,result};
 
@@ -129,7 +129,7 @@ export const ClearCart = createAsyncThunk("ClearCart",async(id,{rejectWithValue}
     // console.log("from fn thunk dlete",id)
     try {
         let token=sessionStorage.getItem("token")
-        console.log(token)
+        // console.log(token)
         const response= await fetch(`${Base_URL}/Cart/clear-cart`,{
             method:"DELETE",
             headers: {
@@ -180,7 +180,7 @@ const cartSlice= createSlice({
         builder.addCase(AddToCartItem.fulfilled, (state, action) => {
             state.loading = false;
             const { data } = action.payload;
-            console.log("hjvbjbhb",state.items)
+            // console.log("hjvbjbhb",state.items)
         
             // if (
             //     !state.items  ||
@@ -216,8 +216,10 @@ const cartSlice= createSlice({
         })
         builder.addCase(GetCartItems.fulfilled,(state,action)=>{
             state.loading=false
-              console.log("getCart.fulfilled - action payload:", action.payload.CartItems);
-            console.log("GetCart.fulfilled - data:", state.items);
+            //   console.log("getCart.fulfilled - action payload:", action.payload.CartItems);
+            // console.log("GetCart.fulfilled - data:", state.items);
+
+            
             // state.items.push(action.payload)
             state.error = null;
             state.items = action.payload.CartItems;

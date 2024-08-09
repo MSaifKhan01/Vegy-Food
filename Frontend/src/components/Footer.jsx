@@ -3,7 +3,7 @@ import UserContext from "../utills/UserContext";
 
 const Footer = () => {
     const {user} = useContext(UserContext);
-    console.log("from footer",user)
+    // console.log("from footer",user)
 
     return (
         <footer className="bg-black m-4 p-4 rounded-md">

@@ -7,8 +7,8 @@ const CartRouter = express.Router();
 CartRouter.post("/Add-toCart/:productID", async (req, res) => {
   const userID = req.userID;
   const { productID } = req.params;
-  console.log(req.body);
-  console.log(userID, productID);
+  // console.log(req.body);
+  // console.log(userID, productID);
 
   try {
     const cartItem = await CartModel.findOne({ UserID: userID, "Product.id": productID });
@@ -53,7 +53,7 @@ CartRouter.patch("/inc-qty/:productID", async (req, res) => {
   
   try {
     const { productID } = req.params;
-    console.log("--------",productID,)
+    // console.log("--------",productID,)
     const userID = req.userID;
     const item = await CartModel.findOne({ UserID: userID, "Product.id": productID });
 

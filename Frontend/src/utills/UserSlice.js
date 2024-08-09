@@ -33,10 +33,12 @@ export const SignIn = createAsyncThunk(
         body: JSON.stringify(data),
       });
 
+      console.log("from user slice login  ", response);
+
       if (!response.ok) {
         throw new Error("Failed to sign in");
       }
-      console.log("from slice ", response);
+      
 
       const result = await response.json();
       return result;

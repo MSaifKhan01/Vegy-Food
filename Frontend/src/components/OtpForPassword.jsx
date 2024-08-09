@@ -33,7 +33,7 @@ const OtpForPassword = () => {
         toast.error(action.payload.msg);
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      // console.error("Error sending OTP:", error);
       toast.error(action.payload.msg);
     }
   };
@@ -43,7 +43,7 @@ const OtpForPassword = () => {
     try {
 
       const action = await dispatch(OTPVerify(otp));
-      console.log(action)
+      // console.log(action)
 
       if (action.meta.requestStatus==="fulfilled" && action.payload.msg==="OTP verified successfully") {
         toast.success("OTP verified successfully!");
@@ -53,7 +53,7 @@ const OtpForPassword = () => {
         toast.error("Invalid OTP");
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
+      // console.error("Error verifying OTP:", error);
       toast.error("Failed to verify OTP");
     }
   };
@@ -68,6 +68,7 @@ const OtpForPassword = () => {
   
 
       const action = await dispatch(ResetPassword(data))
+      // console.log("fromotpforPasswordC",action)
 
       if (action.meta.requestStatus==="fulfilled" && action.payload.msg==="Password updated successfully") {
         toast.success("Password updated successfully!");
@@ -76,7 +77,7 @@ const OtpForPassword = () => {
         toast.error(action.payload.msg);
       }
     } catch (error) {
-      console.error("Error updating password:", error);
+      // console.error("Error updating password:", error);
       toast.error(action.payload.msg);
     }
   };

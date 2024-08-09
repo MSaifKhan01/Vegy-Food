@@ -42,7 +42,7 @@ const useRestaurantMenu = (id) => {
   useEffect(() => {
     getRestaurentData();
   }, [id]); // Trigger effect when 'id' changes
-  console.log("from use Hook  ", allItemCardsItem);
+  // console.log("from use Hook  ", allItemCardsItem);
 
   return { restaurent, menuData, allItemCardsItem };
 };

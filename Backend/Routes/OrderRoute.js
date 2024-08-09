@@ -212,14 +212,14 @@ OrderRouter.patch('/update-status/:orderId', async (req, res) => {
 
   try {
     let order = await orderModel.findById(orderId).populate("UserID");
-    console.log(order);
+    // console.log(order);
     
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
     if (newStatus === 'Canceled') {
-      console.log(newStatus);
+      // console.log(newStatus);
       await orderModel.deleteOne({ _id: orderId });
       return res.status(200).json({ message: "Order canceled and removed" });
     } else {

@@ -1,7 +1,7 @@
 
 
 export const getFilterData = async (Data, searchText, sortOption) => {
-  console.log("from Helper",sortOption)
+  // console.log("from Helper",sortOption)
   let filterdata = Data.filter((ele) => {
     if (ele.info && ele.info.name) {
       return ele.info.name.toLowerCase().includes(searchText.toLowerCase());

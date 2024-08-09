@@ -2,7 +2,7 @@
 
 Dive into a world of culinary delight with "Fork & JSA" – a unique platform that combines innovation with gastronomy, offering a seamless experience for food enthusiasts! 💻✨
 
-### 🛠 Tech Stacks & Tools:
+### 🛠 Tech Stacks & Tools & Features:
 - **MERN Stack**: Leveraging the power of MongoDB, Express.js, React, and Node.js for a robust full-stack solution.
 - **Redux Toolkit**: Enhancing state management efficiency with Redux Toolkit for a smoother user experience.
 - **React**: Powering our frontend, ensuring an engaging and dynamic user interface.
@@ -24,8 +24,7 @@ Dive into a world of culinary delight with "Fork & JSA" – a unique platform th
 - **Visually Appealing UI**: Indulge your senses with an aesthetically pleasing interface.
 - **Responsive Design**: Experience the application seamlessly across all devices.
 
-### 🌐 Connect with Us:
-Explore the application and share your feedback to make "Fork & JSA" even better! You can also leave a message to get in touch with us.
+
 
 - **Live Site**: [Explore Fork & JSA](https://vegy-food.vercel.app/)
 - **GitHub Repository**: [Check out the code](https://github.com/MSaifKhan01/Vegy-Food)

@@ -11,7 +11,7 @@ const UserOrders = () => {
   const handleCancelOrder =async (orderId) => {
     let newStatus="Canceled"
     let action=await dispatch(updateOrderStatus({ orderId, newStatus }));
-    console.log(action)
+    // console.log(action)
 
     // toast.success( action.payload.result.msg);
 

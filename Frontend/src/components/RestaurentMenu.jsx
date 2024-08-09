@@ -55,7 +55,7 @@ const RestaurentMenu = () => {
   };
 
 
-  console.log("simple from", sortOption);
+  // console.log("simple from", sortOption);
 
   if (!isOnline) {
     return <UserOffline />;
@@ -77,7 +77,7 @@ const RestaurentMenu = () => {
       searchText,
       sortOption
     );
-    console.log("from handle search ", sortOption);
+    // console.log("from handle search ", sortOption);
     setFilteredItems(filteredData);
     setCurrentPage(1); // Reset to first page after search
   };

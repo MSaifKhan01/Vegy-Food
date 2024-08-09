@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetCartItems } from "../utills/cartSlice.js";
 import UserContext from "../utills/UserContext";
 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import  LogoJSA from "../Image/LogoJSA.png"
 
 
@@ -52,9 +55,29 @@ export const NavComponent = () => {
   const Users = useSelector((store) => store.User.user);
 
   const userData = sessionStorage.getItem("User");
+
   // console.log("userData",userData)
-  // const parsedUserData = JSON.parse(userData);
-  const parsedUserData = userData !== undefined ? JSON.parse(userData) : null;
+
+  // const parsedUserData = userData !== undefined ? JSON.parse(userData) : null;
+
+
+  let parsedUserData = null;
+
+  if (userData) {
+    try {
+      parsedUserData = JSON.parse(userData);
+    } catch (error) {
+      // console.error("Error parsing userData:", error);
+
+      toast.success("You need to Signup!");
+   
+      sessionStorage.removeItem("User"); 
+    }
+  } else {
+    parsedUserData = "You need to Signup";
+  }
+
+  // console.log("header-----", parsedUserData);
   
   
 
@@ -75,12 +98,12 @@ export const NavComponent = () => {
     // window.location.href = "http://localhost:1234/";
     window.location.href = "https://vegy-food.vercel.app/";
     // navigate('/');
-    console.log("hkk out");
+    // console.log("hkk out");
   };
 
   const handleSignIn = () => {
     // setIsLoggedin(true);
-    console.log("hkk in");
+    console.log("iFrom handleSignIn fn");
   };
 
   // const handleCartRoutte=()=>{
@@ -96,7 +119,7 @@ export const NavComponent = () => {
       {parsedUserData ? (
         <div className="flex justify-center items-center">
     <span className="py-2.5 px-1 mt-2.5 mr-1 font-bold text-green">
-  {parsedUserData.username? (
+  {parsedUserData.username ? (
     parsedUserData.username || parsedUserData.email 
   ) : (
     "Please Login"
@@ -170,13 +193,13 @@ export const NavComponent = () => {
            <button
               className="nav--btn"
               onClick={() => {
-                parsedUserData ? handleSignOut() : handleSignIn();
+                userData ? handleSignOut() : handleSignIn();
               }}
             >
-              {parsedUserData ? "Logout" : "Login "}
+              {userData ? "Logout" : "Login "}
               <span
                 className={
-                  parsedUserData
+                  userData
                     ? "text-green-500 font-bold text-lg"
                     : "text-red-600 text-lg"
                 }
@@ -191,7 +214,7 @@ export const NavComponent = () => {
       <div
   className="lg:hidden xl:hidden md:hidden flex w-[65px] text-base text-blue-dark cursor-pointer items-center justify-center"
   onClick={() => {
-    console.log("icon");
+    // console.log("icon");
     closeMenu();
     setMenuActive(!menuActive);
   }}
@@ -210,7 +233,7 @@ export const Header = () => {
    
   const fetchCartItems = () => {
     dispatch(GetCartItems());
-    console.log("fetchCartItems called");
+    // console.log("fetchCartItems called");
   };
 
   
@@ -218,7 +241,7 @@ export const Header = () => {
     // setTimeout(() => {
       fetchCartItems();
     // }, 1000);
-    console.log("useEffect called ------")
+    // console.log("useEffect called ------")
   }, [dispatch]);
 
 

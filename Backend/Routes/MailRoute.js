@@ -5,7 +5,7 @@ const MailRouter = express.Router();
 
 MailRouter.post("/", (req, res) => {
   const { email, message, username } = req.body;
-  console.log(email,message,username)
+  // console.log(email,message,username)
 
   const userData = {
     email: email,
